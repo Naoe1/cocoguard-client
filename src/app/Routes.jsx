@@ -4,6 +4,10 @@ import { Landing } from './routes/Landing';
 import MainErrorFallback from '@/components/errors/Main';
 import { LoginRoute } from './routes/app/auth/Login';
 import { RegisterRoute } from './routes/app/auth/Register';
+import { AppRoot } from './routes/app/Root';
+import { DashboardRoute } from './routes/app/Dashboard';
+import { ProtectedRoute } from '@/lib/auth';
+
 export const createRouter = () => {
   return createBrowserRouter([
     {
@@ -20,6 +24,21 @@ export const createRouter = () => {
       path: '/auth/register',
       element: <RegisterRoute />,
       errorElement: <MainErrorFallback />,
+    },
+    {
+      path: '/app',
+      element: (
+        <ProtectedRoute>
+          <AppRoot />
+        </ProtectedRoute>
+      ),
+      errorElement: <MainErrorFallback />,
+      children: [
+        {
+          path: '',
+          element: <DashboardRoute />,
+        },
+      ],
     },
   ]);
 };
