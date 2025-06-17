@@ -25,6 +25,22 @@ export const loginInputSchema = z.object({
   password: z.string().min(6, 'Minimum 6 characters'),
 });
 
+export const forgotPasswordInputSchema = z.object({
+  email: z.string().email({ message: 'Invalid email address' }),
+});
+
+export const updatePasswordInputSchema = z
+  .object({
+    password: z
+      .string()
+      .min(6, { message: 'Password must be at least 6 characters long' }),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ['confirmPassword'],
+  });
+
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -93,6 +109,31 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const forgotPassword = async (data) => {
+    try {
+      const response = await api.post('/auth/forgot', data);
+      console.log('Forgot password response:', data);
+      return response.data;
+    } catch (error) {
+      console.error('Error in forgotPassword:', error);
+      throw error;
+    }
+  };
+
+  const updatePassword = async (data, token) => {
+    try {
+      const response = await api.post(
+        '/auth/update-password?token=' + token,
+        data,
+      );
+      console.log('Forgot password response:', data);
+      return response.data;
+    } catch (error) {
+      console.error('Error in forgotPassword:', error);
+      throw error;
+    }
+  };
+
   useLayoutEffect(() => {
     const requestIntercept = api.interceptors.request.use(
       (config) => {
@@ -118,6 +159,8 @@ export const AuthProvider = ({ children }) => {
         logout,
         refresh,
         fetchMe,
+        forgotPassword,
+        updatePassword,
       }}
     >
       {children}
@@ -133,5 +176,15 @@ export const ProtectedRoute = ({ children }) => {
   if (!auth.user) {
     return <Navigate to={`/auth/login`} state={{ from: location }} replace />;
   }
+  return children;
+};
+
+export const DenyStaffAccess = ({ children }) => {
+  const { auth } = useAuth();
+
+  if (auth?.user?.role === 'STAFF') {
+    return <Navigate to="/app" replace />;
+  }
+
   return children;
 };
