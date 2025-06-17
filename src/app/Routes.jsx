@@ -7,6 +7,9 @@ import { RegisterRoute } from './routes/app/auth/Register';
 import { AppRoot } from './routes/app/Root';
 import { DashboardRoute } from './routes/app/Dashboard';
 import { ProtectedRoute } from '@/lib/auth';
+import { CoconutRoot } from './routes/app/coconuts/Root';
+import CoconutsRoutes from './routes/app/coconuts/Coconuts';
+import CoconutRoutes from './routes/app/coconuts/Coconut';
 
 export const createRouter = () => {
   return createBrowserRouter([
@@ -37,6 +40,20 @@ export const createRouter = () => {
         {
           path: '',
           element: <DashboardRoute />,
+        },
+        {
+          path: 'coconuts',
+          element: <CoconutRoot />,
+          children: [
+            {
+              path: '',
+              element: <CoconutsRoutes />,
+            },
+            {
+              path: ':coconutId',
+              element: <CoconutRoutes />,
+            },
+          ],
         },
       ],
     },
