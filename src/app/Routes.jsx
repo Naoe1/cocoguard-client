@@ -10,6 +10,7 @@ import { ProtectedRoute } from '@/lib/auth';
 import { CoconutRoot } from './routes/app/coconuts/Root';
 import CoconutsRoutes from './routes/app/coconuts/Coconuts';
 import CoconutRoutes from './routes/app/coconuts/Coconut';
+import { PersistLogin } from '@/lib/PersistLogin';
 
 export const createRouter = () => {
   return createBrowserRouter([
@@ -31,9 +32,11 @@ export const createRouter = () => {
     {
       path: '/app',
       element: (
-        <ProtectedRoute>
-          <AppRoot />
-        </ProtectedRoute>
+        <PersistLogin>
+          <ProtectedRoute>
+            <AppRoot />
+          </ProtectedRoute>
+        </PersistLogin>
       ),
       errorElement: <MainErrorFallback />,
       children: [
