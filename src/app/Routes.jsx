@@ -2,8 +2,10 @@ import React from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 import { Landing } from './routes/Landing';
 import MainErrorFallback from '@/components/errors/Main';
-import { LoginRoute } from './routes/app/auth/Login';
-import { RegisterRoute } from './routes/app/auth/Register';
+import { LoginRoute } from './routes/auth/Login';
+import { RegisterRoute } from './routes/auth/Register';
+import { ForgotRoute } from './routes/auth/Forgot';
+import { UpdatePasswordRoute } from './routes/auth/UpdatePassword';
 import { AppRoot } from './routes/app/Root';
 import { DashboardRoute } from './routes/app/Dashboard';
 import { ProtectedRoute } from '@/lib/auth';
@@ -27,6 +29,16 @@ export const createRouter = () => {
     {
       path: '/auth/register',
       element: <RegisterRoute />,
+      errorElement: <MainErrorFallback />,
+    },
+    {
+      path: '/auth/forgot',
+      element: <ForgotRoute />,
+      errorElement: <MainErrorFallback />,
+    },
+    {
+      path: '/auth/update-password',
+      element: <UpdatePasswordRoute />,
       errorElement: <MainErrorFallback />,
     },
     {
