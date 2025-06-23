@@ -14,6 +14,7 @@ import CoconutsRoutes from './routes/app/coconuts/Coconuts';
 import CoconutRoutes from './routes/app/coconuts/Coconut';
 import { PersistLogin } from '@/lib/PersistLogin';
 import InventoryRoutes from './routes/app/inventory/Inventory';
+import HarvestsRoutes from './routes/app/coconuts/harvest/Harvests';
 
 export const createRouter = () => {
   return createBrowserRouter([
@@ -72,6 +73,10 @@ export const createRouter = () => {
             {
               path: ':coconutId',
               element: <CoconutRoutes />,
+            },
+            {
+              path: 'harvests',
+              element: <HarvestsRoutes />,
             },
           ],
         },
