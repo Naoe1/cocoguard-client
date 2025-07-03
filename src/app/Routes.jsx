@@ -8,7 +8,7 @@ import { ForgotRoute } from './routes/auth/Forgot';
 import { UpdatePasswordRoute } from './routes/auth/UpdatePassword';
 import { AppRoot } from './routes/app/Root';
 import { DashboardRoute } from './routes/app/Dashboard';
-import { ProtectedRoute } from '@/lib/auth';
+import { DenyStaffAccess, ProtectedRoute } from '@/lib/auth';
 import { CoconutRoot } from './routes/app/coconuts/Root';
 import CoconutsRoutes from './routes/app/coconuts/Coconuts';
 import CoconutRoutes from './routes/app/coconuts/Coconut';
@@ -20,6 +20,7 @@ import NutrientsRoutes from './routes/app/coconuts/nutrient/Nutrient';
 import { PlantingGuide } from '@/features/guide/PlantingGuide';
 import { NutrientManagement } from '@/features/guide/NutrientManagement';
 import { PestAndDiseaseManagement } from '@/features/guide/PestAndDiseaseManagement';
+import { StaffsRoute } from './routes/app/Staff';
 
 export const createRouter = () => {
   return createBrowserRouter([
@@ -66,6 +67,14 @@ export const createRouter = () => {
         {
           path: 'inventory',
           element: <InventoryRoutes />,
+        },
+        {
+          path: 'staff',
+          element: (
+            <DenyStaffAccess>
+              <StaffsRoute />
+            </DenyStaffAccess>
+          ),
         },
         {
           path: 'coconuts',
