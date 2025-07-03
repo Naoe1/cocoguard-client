@@ -17,6 +17,9 @@ import InventoryRoutes from './routes/app/inventory/Inventory';
 import HarvestsRoutes from './routes/app/coconuts/harvest/Harvests';
 import TreatmentRoutes from './routes/app/coconuts/treatment/Treatment';
 import NutrientsRoutes from './routes/app/coconuts/nutrient/Nutrient';
+import { PlantingGuide } from '@/features/guide/PlantingGuide';
+import { NutrientManagement } from '@/features/guide/NutrientManagement';
+import { PestAndDiseaseManagement } from '@/features/guide/PestAndDiseaseManagement';
 
 export const createRouter = () => {
   return createBrowserRouter([
@@ -89,6 +92,18 @@ export const createRouter = () => {
               element: <NutrientsRoutes />,
             },
           ],
+        },
+        {
+          path: 'guide/planting',
+          element: <PlantingGuide />,
+        },
+        {
+          path: 'guide/nutrients',
+          element: <NutrientManagement />,
+        },
+        {
+          path: 'guide/pests-and-diseases',
+          element: <PestAndDiseaseManagement />,
         },
       ],
     },
