@@ -10,12 +10,20 @@ import {
   CardFooter,
 } from '@/shared/components/ui/card';
 
-import { ScissorsLineDashed } from 'lucide-react';
+import { Button } from '@/shared/components/ui/button';
+import { Leaf, Droplet, AlertTriangle, ScissorsLineDashed } from 'lucide-react';
+import { CreateHarvest } from '@/features/harvest/components/CreateHarvest';
 import { LatestActivity } from './LatestActivity';
+import { CreateTreatment } from '@/features/treatment/components/CreateTreatment';
+import { CreateNutrient } from '@/features/nutrient/components/CreateNutrient';
+import { CheckDiseaseDialog } from '@/features/disease/components/CheckDiseaseDialog';
+import { useState } from 'react';
 
 export const CoconutView = ({ coconutId }) => {
   const coconutQuery = useCoconut({ coconutId });
   const statsQuery = useCoconutStats({ coconutId });
+  const [isDiseaseDialogOpen, setIsDiseaseDialogOpen] = useState(false);
+
   if (coconutQuery.isLoading || statsQuery.isLoading) {
     return (
       <div className="flex h-48 w-full items-center justify-center">
@@ -161,6 +169,63 @@ export const CoconutView = ({ coconutId }) => {
               <p className="font-medium text-sm text-slate-700">
                 Quick Actions:
               </p>
+              <div className="flex flex-wrap gap-2 w-full">
+                <CreateHarvest
+                  code={coconut.tree_code}
+                  TriggerBtn={
+                    <Button
+                      size="sm"
+                      className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white flex items-center justify-center gap-1 min-w-[100px]"
+                    >
+                      <ScissorsLineDashed className="h-4 w-4" />
+                      <span>Harvest</span>
+                    </Button>
+                  }
+                />
+
+                <CreateTreatment
+                  code={coconut.tree_code}
+                  TriggerBtn={
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="flex-1 border-emerald-200 text-emerald-700 hover:bg-emerald-50 flex items-center justify-center gap-1 min-w-[100px]"
+                    >
+                      <Leaf className="h-4 w-4" />
+                      <span>Treatment</span>
+                    </Button>
+                  }
+                />
+                <CreateNutrient
+                  code={coconut.tree_code}
+                  TriggerBtn={
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="flex-1 border-blue-200 text-blue-700 hover:bg-blue-50 flex items-center justify-center gap-1 min-w-[100px]"
+                    >
+                      <Droplet className="h-4 w-4" />
+                      <span>Nutrients</span>
+                    </Button>
+                  }
+                />
+                <CheckDiseaseDialog
+                  open={isDiseaseDialogOpen}
+                  onOpenChange={setIsDiseaseDialogOpen}
+                  id={coconut.id}
+                  TriggerButton={
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="flex-1 border-red-200 text-red-700 hover:bg-red-50 flex items-center justify-center gap-1 min-w-[100px]"
+                      onClick={() => setIsDiseaseDialogOpen(true)} // Open dialog on click
+                    >
+                      <AlertTriangle className="h-4 w-4" />
+                      <span>Check Disease</span>
+                    </Button>
+                  }
+                />
+              </div>
             </CardFooter>
           </Card>
         </div>
