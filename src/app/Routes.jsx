@@ -21,6 +21,7 @@ import { PlantingGuide } from '@/features/guide/PlantingGuide';
 import { NutrientManagement } from '@/features/guide/NutrientManagement';
 import { PestAndDiseaseManagement } from '@/features/guide/PestAndDiseaseManagement';
 import { StaffsRoute } from './routes/app/Staff';
+import { AccountRoute } from './routes/app/Account';
 
 export const createRouter = () => {
   return createBrowserRouter([
@@ -63,6 +64,10 @@ export const createRouter = () => {
         {
           path: '',
           element: <DashboardRoute />,
+        },
+        {
+          path: 'account',
+          element: <AccountRoute />,
         },
         {
           path: 'inventory',
