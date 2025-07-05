@@ -22,6 +22,13 @@ import { NutrientManagement } from '@/features/guide/NutrientManagement';
 import { PestAndDiseaseManagement } from '@/features/guide/PestAndDiseaseManagement';
 import { StaffsRoute } from './routes/app/Staff';
 import { AccountRoute } from './routes/app/Account';
+import { MarketRoot } from './routes/market/Root';
+import { MarketLanding } from './routes/market/Landing';
+import MarketRoutes from './routes/market/Market';
+import { MarketRouteAdmin } from './routes/app/market/Market';
+import { ProductsRouteAdmin } from './routes/app/market/Products';
+import ProductRoutes from './routes/market/Product';
+import { CartView } from '@/features/store/components/CartView';
 
 export const createRouter = () => {
   return createBrowserRouter([
@@ -51,6 +58,28 @@ export const createRouter = () => {
       errorElement: <MainErrorFallback />,
     },
     {
+      path: '/market',
+      element: <MarketLanding />,
+    },
+    {
+      path: '/market/:marketId',
+      element: <MarketRoot />,
+      children: [
+        {
+          path: '',
+          element: <MarketRoutes />,
+        },
+        {
+          path: 'cart',
+          element: <CartView />,
+        },
+        {
+          path: ':productId',
+          element: <ProductRoutes />,
+        },
+      ],
+    },
+    {
       path: '/app',
       element: (
         <PersistLogin>
@@ -78,6 +107,22 @@ export const createRouter = () => {
           element: (
             <DenyStaffAccess>
               <StaffsRoute />
+            </DenyStaffAccess>
+          ),
+        },
+        {
+          path: 'market',
+          element: (
+            <DenyStaffAccess>
+              <MarketRouteAdmin />
+            </DenyStaffAccess>
+          ),
+        },
+        {
+          path: 'market/products',
+          element: (
+            <DenyStaffAccess>
+              <ProductsRouteAdmin />
             </DenyStaffAccess>
           ),
         },
