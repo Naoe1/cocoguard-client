@@ -7,29 +7,30 @@ export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
 
   const addToCart = (product, quantity) => {
-    setCartItems((prevItems) => {
-      const existingItemIndex = prevItems.findIndex(
-        (item) => item.product.id === product.id,
-      );
-      if (existingItemIndex > -1) {
-        const updatedItems = [...prevItems];
-        const newQuantity = updatedItems[existingItemIndex].quantity + quantity;
-        if (newQuantity > product.amount_to_sell) {
-          toast.error(`Cannot add more than ${product.amount_to_sell} items.`);
-          return prevItems;
-        }
-        updatedItems[existingItemIndex].quantity = newQuantity;
-        toast.success(
-          `Updated ${product.inventory?.name || 'Product'} quantity in cart`,
-        );
-        return updatedItems;
-      } else {
-        toast.success(
-          `Added ${quantity} x ${product.inventory?.name || 'Product'} to cart`,
-        );
-        return [...prevItems, { product, quantity }];
+    const existingItemIndex = cartItems.findIndex(
+      (item) => item.product.id === product.id,
+    );
+
+    if (existingItemIndex > -1) {
+      const newQuantity = cartItems[existingItemIndex].quantity + quantity;
+      if (newQuantity > product.amount_to_sell) {
+        toast.error(`Cannot add more than ${product.amount_to_sell} items.`);
+        return;
       }
-    });
+      setCartItems((prevItems) => {
+        const updatedItems = [...prevItems];
+        updatedItems[existingItemIndex].quantity = newQuantity;
+        return updatedItems;
+      });
+      toast.success(
+        `Updated ${product.inventory?.name || 'Product'} quantity in cart`,
+      );
+    } else {
+      setCartItems((prevItems) => [...prevItems, { product, quantity }]);
+      toast.success(
+        `Added ${quantity} x ${product.inventory?.name || 'Product'} to cart`,
+      );
+    }
   };
 
   const removeFromCart = (productId) => {

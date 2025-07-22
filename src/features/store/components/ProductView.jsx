@@ -164,10 +164,10 @@ export const ProductView = ({ productId, farmId }) => {
                 className="w-full h-12 text-base bg-amber-600 hover:bg-amber-700 text-white"
                 disabled={!product?.amount_to_sell}
                 onClick={() => {
-                  toast.success(
-                    `Processing immediate purchase for ${quantity} item(s)`,
-                  );
-                  // Future implementation for direct checkout
+                  if (product) {
+                    addToCart(product, quantity);
+                    navigate(`/market/${farmId}/cart`);
+                  }
                 }}
               >
                 Buy It Now
