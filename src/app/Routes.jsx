@@ -29,6 +29,7 @@ import { MarketRouteAdmin } from './routes/app/market/Market';
 import { ProductsRouteAdmin } from './routes/app/market/Products';
 import ProductRoutes from './routes/market/Product';
 import { CartView } from '@/features/store/components/CartView';
+import { WeatherRoute } from './routes/app/Weather';
 
 export const createRouter = () => {
   return createBrowserRouter([
@@ -163,6 +164,10 @@ export const createRouter = () => {
         {
           path: 'guide/pests-and-diseases',
           element: <PestAndDiseaseManagement />,
+        },
+        {
+          path: 'weather',
+          element: <WeatherRoute />,
         },
       ],
     },
