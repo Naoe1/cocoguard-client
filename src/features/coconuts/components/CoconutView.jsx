@@ -27,7 +27,10 @@ export const CoconutView = ({ coconutId }) => {
   if (coconutQuery.isLoading || statsQuery.isLoading) {
     return (
       <div className="flex h-48 w-full items-center justify-center">
-        Loading
+        <div className="flex items-center gap-2">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-600"></div>
+          <span className="text-slate-600">Loading...</span>
+        </div>
       </div>
     );
   }
