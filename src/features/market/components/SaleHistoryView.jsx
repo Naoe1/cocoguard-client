@@ -5,6 +5,15 @@ import { useSalesHistory } from '../api/GetSalesHistory';
 export const SaleHistoryView = () => {
   const columns = [
     {
+      accessorKey: 'searchableContent',
+      header: '',
+      cell: () => null,
+      enableGlobalFilter: true,
+      enableColumnFilter: false,
+      enableSorting: false,
+      size: 0,
+    },
+    {
       accessorKey: 'order_id',
       header: 'Order ID',
       cell: ({ row }) => (
@@ -57,10 +66,18 @@ export const SaleHistoryView = () => {
 
   let sales = salesQuery?.data?.data?.sales || [];
 
+  // Add searchable content to each sale
+  const salesWithSearch = sales.map((sale) => ({
+    ...sale,
+    searchableContent: `${sale.order_id} ${
+      sale.sale_items?.map((item) => item.name).join(' ') || ''
+    }`,
+  }));
+
   return (
     <DataTable
       columns={columns}
-      data={sales}
+      data={salesWithSearch}
       searchColumn="order_id"
       searchPlaceholder="Search by order ID..."
       expandable={{
