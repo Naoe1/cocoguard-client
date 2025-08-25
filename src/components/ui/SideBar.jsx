@@ -57,6 +57,10 @@ export const AppSideBar = ({ ...props }) => {
             url: './market/products',
           },
           {
+            title: 'Sale History',
+            url: './market/sale-history',
+          },
+          {
             title: 'Online Store',
             url: '/market/' + auth?.user?.farmId,
           },

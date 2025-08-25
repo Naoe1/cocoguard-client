@@ -30,6 +30,7 @@ import { ProductsRouteAdmin } from './routes/app/market/Products';
 import ProductRoutes from './routes/market/Product';
 import { CartView } from '@/features/store/components/CartView';
 import { WeatherRoute } from './routes/app/Weather';
+import { SaleHistoryRoute } from './routes/app/market/SaleHistory';
 
 export const createRouter = () => {
   return createBrowserRouter([
@@ -124,6 +125,14 @@ export const createRouter = () => {
           element: (
             <DenyStaffAccess>
               <ProductsRouteAdmin />
+            </DenyStaffAccess>
+          ),
+        },
+        {
+          path: 'market/sale-history',
+          element: (
+            <DenyStaffAccess>
+              <SaleHistoryRoute />
             </DenyStaffAccess>
           ),
         },
