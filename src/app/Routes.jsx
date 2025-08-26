@@ -31,6 +31,7 @@ import ProductRoutes from './routes/market/Product';
 import { CartView } from '@/features/store/components/CartView';
 import { WeatherRoute } from './routes/app/Weather';
 import { SaleHistoryRoute } from './routes/app/market/SaleHistory';
+import NotFound from '@/components/errors/NotFound';
 
 export const createRouter = () => {
   return createBrowserRouter([
@@ -179,6 +180,10 @@ export const createRouter = () => {
           element: <WeatherRoute />,
         },
       ],
+    },
+    {
+      path: '*',
+      element: <NotFound />,
     },
   ]);
 };
