@@ -43,29 +43,33 @@ export const AppSideBar = ({ ...props }) => {
           },
         ],
       },
-      {
-        title: 'Market',
-        url: '#',
-        icon: Store,
-        items: [
-          {
-            title: 'Dashboard',
-            url: './market',
-          },
-          {
-            title: 'Products',
-            url: './market/products',
-          },
-          {
-            title: 'Sale History',
-            url: './market/sale-history',
-          },
-          {
-            title: 'Online Store',
-            url: '/market/' + auth?.user?.farmId,
-          },
-        ],
-      },
+      ...(auth?.user?.role !== 'STAFF'
+        ? [
+            {
+              title: 'Market',
+              url: '#',
+              icon: Store,
+              items: [
+                {
+                  title: 'Dashboard',
+                  url: './market',
+                },
+                {
+                  title: 'Products',
+                  url: './market/products',
+                },
+                {
+                  title: 'Sale History',
+                  url: './market/sale-history',
+                },
+                {
+                  title: 'Online Store',
+                  url: '/market/' + auth?.user?.farmId,
+                },
+              ],
+            },
+          ]
+        : []),
       {
         title: 'Resource Hub',
         icon: BookOpen,
