@@ -16,19 +16,25 @@ export const StoreView = ({ farmId }) => {
 
   if (storeQuery.isLoading) {
     return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 place-items-center">
-        {Array.from({ length: 8 }).map((_, index) => (
-          <Card key={index} className="flex flex-col overflow-hidden border">
-            <CardHeader className="p-0 relative">
-              <div className="h-48 w-full bg-gray-200 animate-pulse" />
-            </CardHeader>
-            <CardContent className="flex-grow p-4 text-center">
-              <div className="h-6 w-full bg-gray-200 animate-pulse mb-2" />
-              <div className="h-4 w-full bg-gray-200 animate-pulse mb-2" />
-              <div className="h-4 w-full bg-gray-200 animate-pulse" />
-            </CardContent>
-          </Card>
-        ))}
+      <div className="w-full">
+        <div className="bg-gray-200 animate-pulse rounded-lg p-6 mb-8 h-32"></div>
+        <div className="h-8 w-48 bg-gray-200 animate-pulse mb-6 rounded"></div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+          {Array.from({ length: 10 }).map((_, index) => (
+            <Card
+              key={index}
+              className="flex flex-col overflow-hidden border w-full h-[280px]"
+            >
+              <CardHeader className="p-0 relative">
+                <div className="h-48 w-full bg-gray-200 animate-pulse" />
+              </CardHeader>
+              <CardContent className="flex-grow p-4 text-center">
+                <div className="h-6 w-3/4 mx-auto bg-gray-200 animate-pulse mb-2 rounded" />
+                <div className="h-5 w-1/3 mx-auto bg-gray-200 animate-pulse mt-3 rounded" />
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       </div>
     );
   }
