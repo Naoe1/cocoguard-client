@@ -1,13 +1,14 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { toast } from 'sonner';
+import { useParams } from 'react-router-dom';
 
 const CartContext = createContext();
 
 const CART_STORAGE_KEY = 'cocoguard_cart';
 
-const getStoredCart = () => {
+const getStoredCart = (marketId) => {
   try {
-    const stored = localStorage.getItem(CART_STORAGE_KEY);
+    const stored = localStorage.getItem(`${CART_STORAGE_KEY}_${marketId}`);
     return stored ? JSON.parse(stored) : [];
   } catch (error) {
     console.error('Error reading cart from localStorage:', error);
@@ -15,20 +16,30 @@ const getStoredCart = () => {
   }
 };
 
-const saveCartToStorage = (cartItems) => {
+const saveCartToStorage = (cartItems, marketId) => {
   try {
-    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cartItems));
+    localStorage.setItem(
+      `${CART_STORAGE_KEY}_${marketId}`,
+      JSON.stringify(cartItems),
+    );
   } catch (error) {
     console.error('Error saving cart to localStorage:', error);
   }
 };
 
 export const CartProvider = ({ children }) => {
-  const [cartItems, setCartItems] = useState(getStoredCart);
+  const { marketId } = useParams();
+  const [cartItems, setCartItems] = useState(() => getStoredCart(marketId));
 
   useEffect(() => {
-    saveCartToStorage(cartItems);
-  }, [cartItems]);
+    setCartItems(getStoredCart(marketId));
+  }, [marketId]);
+
+  useEffect(() => {
+    if (marketId) {
+      saveCartToStorage(cartItems, marketId);
+    }
+  }, [cartItems, marketId]);
 
   const addToCart = (product, quantity) => {
     const existingItemIndex = cartItems.findIndex(
