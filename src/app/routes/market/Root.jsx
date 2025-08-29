@@ -50,8 +50,7 @@ const NavbarContent = () => {
 };
 
 const initialOptions = {
-  clientId:
-    'AT8vS8ZViK4VuyyZyTScCICsCDZbVYIOsnuaZzE-lWDTlZXDm7iIJaidvPPo_uXtR_4p-T1WBbo580Ez',
+  clientId: import.meta.env.VITE_PAYPAL_CLIENT_ID,
   currency: 'PHP',
   intent: 'capture',
 };
