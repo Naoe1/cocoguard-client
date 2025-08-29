@@ -7,6 +7,7 @@ import { useState } from 'react';
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -34,6 +35,7 @@ export const RegisterForm = () => {
       lastName: '',
       email: '',
       password: '',
+      paypal_email: '',
       street: '',
       barangay: '',
       city: '',
@@ -152,8 +154,24 @@ export const RegisterForm = () => {
             )}
           />
 
-          <h3 className="text-lg font-medium">Farm Address Information</h3>
+          <FormField
+            control={form.control}
+            name="paypal_email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>PayPal Email</FormLabel>
+                <FormControl>
+                  <Input type="email" disabled={isLoading} {...field} />
+                </FormControl>
+                <FormDescription>
+                  Online payment would be sent to this email.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
+          <h3 className="text-lg font-medium">Farm Address Information</h3>
           <FormField
             control={form.control}
             name="street"

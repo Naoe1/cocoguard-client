@@ -9,6 +9,7 @@ export const registerInputSchema = z.object({
   lastName: z.string().min(1, 'Required'),
   email: z.string().email().min(1, 'Required'),
   password: z.string().min(6, 'Minimum 6 characters'),
+  paypal_email: z.string().email().min(1, 'Required'),
   street: z.string().min(1, 'Street address is required'),
   barangay: z.string().min(1, 'Barangay is required'),
   city: z.string().min(1, 'City/Municipality is required'),
