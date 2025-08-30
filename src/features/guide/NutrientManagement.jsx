@@ -18,7 +18,7 @@ export const NutrientManagement = () => {
   return (
     <div className="space-y-6 p-4 md:p-6 lg:p-8 max-w-4xl mx-auto">
       <h1 className="text-3xl font-bold text-gray-800 mb-6">
-        Fertilization Guide for Coconuts
+        Fertilization Guides for Coconuts
       </h1>
 
       <Card>
