@@ -45,6 +45,12 @@ jobs:
           output_location: "dist" # Built app content directory - optional
           github_id_token: ${{ steps.idtoken.outputs.result }}
           ###### End of Repository/Build Configurations ######
+        env:
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
+          VITE_WEATHER_API_KEY: ${{ secrets.VITE_WEATHER_API_KEY }}
+          VITE_WEATHER_BASE_URL: ${{ secrets.VITE_WEATHER_BASE_URL }}
+          VITE_PAYPAL_CLIENT_ID: ${{ secrets.VITE_PAYPAL_CLIENT_ID }}
+
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
