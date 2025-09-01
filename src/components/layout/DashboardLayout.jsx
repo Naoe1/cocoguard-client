@@ -1,5 +1,5 @@
 import { SidebarProvider, SidebarInset } from '@/shared/components/ui/sidebar';
-import { AppSideBar } from '../ui/sidebar';
+import { AppSideBar } from '../ui/SideBar';
 import { SiteHeader } from '../ui/SiteHeader';
 export const DashboardLayout = ({ children }) => {
   return (
