@@ -11,4 +11,12 @@ export default defineConfig({
       '@': resolve(__dirname, 'src'),
     },
   },
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    exclude: ['**/node_modules/**', '**/e2e/**'],
+    coverage: {
+      include: ['src/**'],
+    },
+  },
 });
