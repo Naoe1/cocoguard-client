@@ -3,9 +3,20 @@ import { api } from '@/lib/apiClient';
 import { z } from 'zod';
 import { getHarvestsQueryOptions } from './GetHarvests';
 export const createHarvestSchema = z.object({
-  treeCode: z.string().min(1, { message: 'Tree ID is required' }).trim(),
-  coconutCount: z.coerce.number().min(1, { message: 'Enter valid count' }),
-  totalWeight: z.coerce.number().min(1, { message: 'Enter valid weight' }),
+  treeCode: z
+    .string()
+    .min(1, { message: 'Tree ID is required' })
+    .max(20, 'Max length is 20 characters')
+    .trim(),
+  coconutCount: z.coerce
+    .number()
+    .int({ message: 'Must be an integer' })
+    .min(1, { message: 'Enter valid count' })
+    .max(1000, { message: 'Coconut count cannot exceed 1000' }),
+  totalWeight: z.coerce
+    .number()
+    .min(1, { message: 'Enter valid weight' })
+    .max(5000, { message: 'Total weight cannot exceed 5000' }),
   harvestDate: z.coerce
     .date({ errorMap: () => ({ message: 'Invalid date format' }) })
     .refine(
