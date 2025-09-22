@@ -51,7 +51,7 @@ const actions = [
           <AlertDialogTitle>Are you sure?</AlertDialogTitle>
           <AlertDialogDescription>
             This will permanently delete the product
-            <span className="font-bold"> {data?.name} </span>
+            <span className="font-bold"> {data?.inventory?.name} </span>
             from the market listing.
           </AlertDialogDescription>
         </AlertDialogHeader>
@@ -61,7 +61,7 @@ const actions = [
           </Button>
           <DeleteProduct
             productId={data.id}
-            productName={data.name}
+            productName={data?.inventory?.name}
             closeForm={onClose}
           />
         </AlertDialogFooter>
