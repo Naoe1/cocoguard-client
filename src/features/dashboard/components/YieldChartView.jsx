@@ -25,7 +25,7 @@ import {
 } from '@/shared/components/ui/toggle-group';
 import { Skeleton } from '@/shared/components/ui/skeleton';
 
-const processHarvestData = (data = []) => {
+export const processHarvestData = (data = []) => {
   if (!Array.isArray(data)) {
     console.error('Invalid harvest data provided:', data);
     return [];
