@@ -33,10 +33,12 @@ export const createCoconutSchema = z.object({
   height: z.coerce
     .number()
     .positive('Height must be a positive number')
+    .max(50, 'Height cannot exceed 50 m')
     .optional(),
   trunkDiameter: z.coerce
     .number()
     .positive('Trunk diameter must be a positive number')
+    .max(90, 'Diameter cannot exceed 90 cm')
     .optional(),
   status: z.enum(['Healthy', 'Diseased']),
 });

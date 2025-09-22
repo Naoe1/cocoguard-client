@@ -102,7 +102,11 @@ export const CreateCoconut = () => {
               <FormItem>
                 <FormLabel>Tree Code *</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter tree code" {...field} />
+                  <Input
+                    placeholder="Enter tree code"
+                    maxLength={30}
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
