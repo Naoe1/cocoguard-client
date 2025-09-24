@@ -60,7 +60,12 @@ export const LoginForm = () => {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input type="email" disabled={isLoading} {...field} />
+                <Input
+                  type="email"
+                  disabled={isLoading}
+                  {...field}
+                  maxLength={50}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
