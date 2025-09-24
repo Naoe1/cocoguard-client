@@ -161,7 +161,7 @@ describe('coconut schema', () => {
   });
 });
 
-describe('createCoconut api', () => {
+describe('coconut api', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -269,7 +269,7 @@ describe('createCoconut api', () => {
     expect(result).toEqual(mockResponse);
   });
 
-  it('should handle patchAPI errors', async () => {
+  it('should handle patch API errors', async () => {
     const mockData = { treeCode: 'T001' };
     const coconutId = '123';
     const mockError = new Error('Network error');
