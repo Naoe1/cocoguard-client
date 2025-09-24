@@ -5,29 +5,49 @@ import { Navigate, useLocation } from 'react-router-dom';
 import { queryClient } from './reactQuery';
 
 export const registerInputSchema = z.object({
-  firstName: z.string().min(1, 'Required'),
-  lastName: z.string().min(1, 'Required'),
-  email: z.string().email().min(1, 'Required'),
+  firstName: z.string().min(1, 'Required').max(40, 'First name too long'),
+  lastName: z.string().min(1, 'Required').max(40, 'Last name too long'),
+  email: z.string().min(1, 'Required').email().max(30, 'Email too long'),
   password: z.string().min(6, 'Minimum 6 characters'),
-  paypal_email: z.string().email().min(1, 'Required'),
-  street: z.string().min(1, 'Street address is required'),
-  barangay: z.string().min(1, 'Barangay is required'),
-  city: z.string().min(1, 'City/Municipality is required'),
-  province: z.string().min(1, 'Province is required'),
-  region: z.string().min(1, 'Region is required'),
+  paypal_email: z
+    .string()
+    .min(1, 'Required')
+    .email('Invalid Paypal Email')
+    .max(30, 'Too long'),
+  street: z
+    .string()
+    .min(1, 'Street address is required')
+    .max(30, 'Street address too long'),
+  barangay: z
+    .string()
+    .min(1, 'Barangay is required')
+    .max(30, 'Barangay too long'),
+  city: z
+    .string()
+    .min(1, 'City/Municipality is required')
+    .max(30, 'City/Municipality too long'),
+  province: z
+    .string()
+    .min(1, 'Province is required')
+    .max(30, 'Province too long'),
+  region: z.string().min(1, 'Region is required').max(30, 'Region too long'),
   postal_code: z
     .string()
     .min(1, 'Postal code is required')
-    .regex(/^\d+$/, 'Postal code must contain only digits'),
+    .regex(/^\d+$/, 'Postal code must contain only digits')
+    .length(4, 'Postal code must be exactly 4 digits'),
 });
 
 export const loginInputSchema = z.object({
-  email: z.string().email().min(1, 'Required'),
-  password: z.string().min(6, 'Minimum 6 characters'),
+  email: z.string().min(1, 'Required').email().max(30, 'Too long'),
+  password: z.string().min(1, 'Please enter your password'),
 });
 
 export const forgotPasswordInputSchema = z.object({
-  email: z.string().email({ message: 'Invalid email address' }),
+  email: z
+    .string()
+    .min(1, 'Required')
+    .email({ message: 'Invalid email address' }),
 });
 
 export const updatePasswordInputSchema = z
@@ -42,7 +62,7 @@ export const updatePasswordInputSchema = z
     path: ['confirmPassword'],
   });
 
-const AuthContext = createContext();
+export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState({
