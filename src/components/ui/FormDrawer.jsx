@@ -42,8 +42,8 @@ export const FormDrawer = ({
       }}
     >
       <DrawerTrigger asChild>{triggerButton}</DrawerTrigger>
-      <DrawerContent className="flex max-w-[800px] flex-col justify-between sm:max-w-[540px] shadow-xl border-l">
-        <div className="flex flex-col h-full relative">
+      <DrawerContent className="flex h-screen min-h-0 max-w-[800px] flex-col sm:max-w-[540px] shadow-xl border-l overflow-hidden">
+        <div className="flex flex-col relative flex-1 min-h-0 overflow-hidden">
           <DrawerClose asChild>
             <Button
               variant="ghost"
@@ -70,7 +70,7 @@ export const FormDrawer = ({
             {children}
           </div>
         </div>
-        <DrawerFooter className="border-t pt-4 flex justify-end gap-3 bg-slate-50 px-5 md:px-6">
+        <DrawerFooter className="border-t pt-4 flex justify-end gap-3 bg-slate-50 px-5 md:px-6 shrink-0">
           <DrawerClose asChild>
             <Button
               variant="outline"
