@@ -7,15 +7,19 @@ export const createItemSchema = z.object({
   name: z
     .string()
     .min(1, { message: 'Name is required' })
-    .max(30, { message: 'Name cannot exceed 39 characters' })
+    .max(30, { message: 'Name cannot exceed 30 characters' })
     .trim(),
   category: z.string().min(1, { message: 'Category is required' }),
   stockQty: z.coerce
     .number()
-    .min(1, { message: 'This should be greater than 1' }),
-  amountPerUnit: z.coerce.number().min(1, {
-    message: 'This should be greater than 1',
-  }),
+    .min(1, { message: 'This should be greater than 1' })
+    .max(1000000, { message: 'Exceeds maximum stock quantity' }),
+  amountPerUnit: z.coerce
+    .number()
+    .min(1, {
+      message: 'This should be greater than 1',
+    })
+    .max(1000000, { message: 'Exceeds maximum amount per unit' }),
   unit: z
     .string()
     .min(1, { message: 'Unit is required' })
