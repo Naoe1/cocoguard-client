@@ -5,7 +5,11 @@ import { getTreatmentsQueryOptions } from './GetTreatments';
 import { getInventoryQueryOptions } from '@/features/inventory/api/GetInventory';
 
 export const createTreatmentSchema = z.object({
-  treeCode: z.string().min(1, { message: '' }).trim(),
+  treeCode: z
+    .string()
+    .min(1, { message: 'Required' })
+    .max(40, { message: 'Too long' })
+    .trim(),
   dateApplied: z.coerce
     .date({ errorMap: () => ({ message: 'Please enter a valid date' }) })
     .refine((date) => date instanceof Date && !isNaN(date), {
@@ -13,7 +17,17 @@ export const createTreatmentSchema = z.object({
     })
     .refine((date) => date <= new Date(), {
       message: 'Applied date cannot be in the future',
-    }),
+    })
+    .refine(
+      (date) => {
+        const minDate = new Date();
+        minDate.setFullYear(minDate.getFullYear() - 100);
+        return date >= minDate;
+      },
+      {
+        message: 'Cannot be earlier than 100 years ago',
+      },
+    ),
   type: z.enum(['Pesticide', 'Fungicide', 'Others', 'Herbicide']),
   product: z
     .string()
@@ -44,6 +58,7 @@ export const createTreatmentSchema = z.object({
   amount: z.coerce
     .number({ invalid_type_error: 'Amount must be a number' })
     .positive('Must be greater than 0')
+    .max(100000, { message: 'Amount is too large' })
     .optional()
     .nullable(),
   unit: z
