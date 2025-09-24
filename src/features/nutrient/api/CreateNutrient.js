@@ -5,7 +5,11 @@ import { getNutrientsQueryOptions } from './GetNutrients';
 import { getInventoryQueryOptions } from '@/features/inventory/api/GetInventory';
 
 export const createNutrientSchema = z.object({
-  treeCode: z.string().min(1, { message: 'Tree ID is required' }),
+  treeCode: z
+    .string()
+    .trim()
+    .min(1, { message: 'Tree ID is required' })
+    .max(50, 'Too long'),
   dateApplied: z.coerce
     .date({ errorMap: () => ({ message: 'Please enter a valid date' }) })
     .refine((date) => date instanceof Date && !isNaN(date), {
@@ -14,10 +18,15 @@ export const createNutrientSchema = z.object({
     .refine((date) => date <= new Date(), {
       message: 'Applied date cannot be in the future',
     }),
-  product: z.string().min(1, { message: 'Product is required' }),
+  product: z
+    .string()
+    .trim()
+    .min(1, { message: 'Product is required' })
+    .max(50, 'Too long'),
   amount: z.coerce
     .number()
-    .min(1, { message: 'This should be greater than 1' }),
+    .min(1, { message: 'This should be greater than 1' })
+    .max(100000, 'Too large'),
   applicationMethod: z
     .string()
     .trim()
