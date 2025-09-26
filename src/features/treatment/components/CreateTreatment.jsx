@@ -115,7 +115,6 @@ export const CreateTreatment = ({ TriggerBtn, code }) => {
         data.inventoryItemId === 'none' ? null : data.inventoryItemId,
       amount: data.amount || null,
     };
-    console.log(formattedData);
     createTreatmentMutation.mutate(formattedData);
   };
 
@@ -254,7 +253,7 @@ export const CreateTreatment = ({ TriggerBtn, code }) => {
                   </FormControl>
                   <SelectContent>
                     <SelectItem value={'none'}>None (Manual Input)</SelectItem>
-                    {inventoryQuery.data?.data?.inventory.map((item) => (
+                    {inventoryQuery.data?.data?.inventory?.map((item) => (
                       <SelectItem key={item.id} value={String(item.id)}>
                         {item.name} ({item.total_available} {item.unit} left)
                       </SelectItem>
