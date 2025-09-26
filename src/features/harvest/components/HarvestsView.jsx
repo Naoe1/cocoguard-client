@@ -50,23 +50,20 @@ const actions = [
     label: 'Delete',
     icon: Trash,
     renderDialog: ({ data, onClose }) => (
-      console.log(data),
-      (
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-            <AlertDialogDescription>
-              This will permanently delete tree
-              <span className="font-bold"> {data?.tree?.tree_code} </span>
-              from our servers.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <Button onClick={onClose}>Close</Button>
-            <DeleteHarvest harvestId={data.id} closeForm={onClose} />
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      )
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+          <AlertDialogDescription>
+            This will permanently delete tree
+            <span className="font-bold"> {data?.tree?.tree_code} </span>
+            from our servers.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <Button onClick={onClose}>Close</Button>
+          <DeleteHarvest harvestId={data.id} closeForm={onClose} />
+        </AlertDialogFooter>
+      </AlertDialogContent>
     ),
   },
 ];
