@@ -38,7 +38,7 @@ export const UpdateProduct = ({ productId, closeForm }) => {
   const form = useForm({
     resolver: zodResolver(createProductSchema),
     values: {
-      inventoryItemId: String(product?.inventory.id),
+      inventoryItemId: String(product?.inventory?.id),
       description: product?.description || '',
       price: product?.price || '',
       amountToSell: product?.amount_to_sell || '',
@@ -55,7 +55,7 @@ export const UpdateProduct = ({ productId, closeForm }) => {
         message: `Amount cannot exceed available inventory stock (${availableStock})`,
       });
       toast.error('Amount to sell exceeds available inventory stock.');
-      return; // Stop submission
+      return;
     }
 
     updateProductMutation.mutate({
