@@ -70,7 +70,6 @@ export const CreateNutrient = ({ TriggerBtn, code }) => {
   });
 
   const onSubmit = (data) => {
-    console.log('Form Data:', data);
     if (
       data.inventoryItemId &&
       data.inventoryItemId !== 'none' &&
@@ -106,10 +105,8 @@ export const CreateNutrient = ({ TriggerBtn, code }) => {
       amount: data.amount === '' ? null : Number(data.amount),
     };
 
-    console.log('Submitting Nutrient Data:', formattedData);
     createNutrientMutation.mutate(formattedData);
   };
-  console.log('CreateNutrient Component Rendered' + code);
 
   return (
     <FormDrawer
@@ -169,7 +166,6 @@ export const CreateNutrient = ({ TriggerBtn, code }) => {
             )}
           />
 
-          {/* Subtract from Inventory */}
           <FormField
             control={form.control}
             name="inventoryItemId"
@@ -189,17 +185,17 @@ export const CreateNutrient = ({ TriggerBtn, code }) => {
                       if (selectedItem) {
                         form.setValue('product', selectedItem.name, {
                           shouldDirty: true,
-                        }); // Set product field
+                        });
                         form.setValue('unit', selectedItem.unit, {
                           shouldDirty: true,
-                        }); // Set unit field
+                        });
                       }
                     } else {
                       form.setValue('product', '', { shouldDirty: true });
                       form.setValue('unit', '', { shouldDirty: true });
                     }
                   }}
-                  value={field.value} // Use value for controlled component
+                  value={field.value}
                   disabled={
                     createNutrientMutation.isPending ||
                     inventoryQuery.isLoading ||
@@ -212,14 +208,14 @@ export const CreateNutrient = ({ TriggerBtn, code }) => {
                         placeholder={
                           inventoryQuery.isLoading
                             ? 'Loading inventory...'
-                            : 'Select fertilizer (optional)' // Updated placeholder
+                            : 'Select fertilizer (optional)'
                         }
                       />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
                     <SelectItem value={'none'}>None (Manual Input)</SelectItem>
-                    {inventoryQuery.data?.data?.inventory.map((item) => (
+                    {inventoryQuery.data?.data?.inventory?.map((item) => (
                       <SelectItem key={item.id} value={String(item.id)}>
                         {item.name} ({item.total_available} {item.unit} left)
                       </SelectItem>
@@ -300,7 +296,6 @@ export const CreateNutrient = ({ TriggerBtn, code }) => {
             />
           </div>
 
-          {/* Application Method */}
           <FormField
             control={form.control}
             name="applicationMethod"
@@ -319,7 +314,6 @@ export const CreateNutrient = ({ TriggerBtn, code }) => {
             )}
           />
         </form>
-        {/* Display root errors */}
         {form.formState.errors.root && (
           <FormMessage className="mt-2 text-sm text-red-500">
             {form.formState.errors.root.message}
