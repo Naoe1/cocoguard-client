@@ -106,7 +106,7 @@ export const CreateHarvest = ({ TriggerBtn, code }) => {
             name="coconutCount"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Number of coconuts (m)</FormLabel>
+                <FormLabel>Number of coconuts</FormLabel>
                 <FormControl>
                   <Input
                     type="number"
