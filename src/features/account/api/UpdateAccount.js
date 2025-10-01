@@ -14,7 +14,7 @@ export const updateAccountSchema = z.object({
   street: z
     .string()
     .min(1, 'Street address is required')
-    .max(30, 'Street address too long'),
+    .max(100, 'Street address too long'),
   barangay: z
     .string()
     .min(1, 'Barangay is required')

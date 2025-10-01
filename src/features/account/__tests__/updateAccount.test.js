@@ -99,8 +99,8 @@ describe('UpdateAccount schema', () => {
     expect(res.error.issues[0].message).toBe('Last name too long');
   });
 
-  it('rejects street over 30 characters', () => {
-    const long = 'a'.repeat(31);
+  it('rejects street over 100 characters', () => {
+    const long = 'a'.repeat(101);
     const res = updateAccountSchema.safeParse({ ...baseValid, street: long });
     expect(res.success).toBe(false);
     expect(res.error.issues[0].message).toBe('Street address too long');
