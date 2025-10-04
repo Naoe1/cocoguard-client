@@ -46,7 +46,11 @@ export const CreateHarvest = ({ TriggerBtn, code }) => {
   });
 
   const onSubmit = (data) => {
-    createHarvestMutation.mutate(data);
+    const payload = {
+      ...data,
+      treeCode: data.treeCode ?? code ?? '',
+    };
+    createHarvestMutation.mutate(payload);
   };
 
   return (

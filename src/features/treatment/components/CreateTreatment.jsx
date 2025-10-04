@@ -115,6 +115,7 @@ export const CreateTreatment = ({ TriggerBtn, code }) => {
         data.inventoryItemId === 'none' ? null : data.inventoryItemId,
       amount: data.amount || null,
     };
+    if (!data.treeCode) formattedData['treeCode'] = code || '';
     createTreatmentMutation.mutate(formattedData);
   };
 

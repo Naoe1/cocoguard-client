@@ -104,6 +104,7 @@ export const CreateNutrient = ({ TriggerBtn, code }) => {
         data.inventoryItemId === 'none' ? null : data.inventoryItemId,
       amount: data.amount === '' ? null : Number(data.amount),
     };
+    if (!data.treeCode) formattedData['treeCode'] = code || '';
 
     createNutrientMutation.mutate(formattedData);
   };
