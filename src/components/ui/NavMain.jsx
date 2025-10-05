@@ -23,8 +23,10 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@/shared/components/ui/collapsible';
+import { useAuth } from '@/lib/auth';
 
 export const NavMain = ({ items }) => {
+  const { auth } = useAuth();
   return (
     <SidebarGroup>
       <SidebarGroupLabel>Platform</SidebarGroupLabel>
@@ -78,22 +80,26 @@ export const NavMain = ({ items }) => {
             </SidebarMenuItem>
           </Collapsible>
         ))}
-        <SidebarMenuItem>
-          <SidebarMenuButton asChild tooltip="Staff">
-            <Link to="/app/staff">
-              <SquareUserRound />
-              <span>Staff</span>
-            </Link>
-          </SidebarMenuButton>
-        </SidebarMenuItem>
-        <SidebarMenuItem>
-          <SidebarMenuButton asChild tooltip="Weather">
-            <Link to="/app/logs">
-              <Logs />
-              <span>Audit Logs</span>
-            </Link>
-          </SidebarMenuButton>
-        </SidebarMenuItem>
+        {auth?.user?.role === 'ADMIN' && (
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild tooltip="Staff">
+              <Link to="/app/staff">
+                <SquareUserRound />
+                <span>Staff</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        )}
+        {auth?.user?.role === 'ADMIN' && (
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild tooltip="Weather">
+              <Link to="/app/logs">
+                <Logs />
+                <span>Audit Logs</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        )}
         <SidebarMenuItem>
           <SidebarMenuButton asChild tooltip="Weather">
             <Link to="/app/weather">

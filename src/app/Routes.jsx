@@ -182,7 +182,11 @@ export const createRouter = () => {
         },
         {
           path: 'logs',
-          element: <AuditLogsRoute />,
+          element: (
+            <DenyStaffAccess>
+              <AuditLogsRoute />
+            </DenyStaffAccess>
+          ),
         },
       ],
     },
