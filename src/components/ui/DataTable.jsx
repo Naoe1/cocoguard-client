@@ -38,7 +38,16 @@ export const DataTable = ({
     return data?.filter((row) =>
       filters.every((f) => {
         const val = activeFilters[f.id];
-        if (!val || (Array.isArray(val) && val.length === 0)) return true;
+        if (
+          val == null ||
+          val === '' ||
+          (Array.isArray(val) && val.length === 0)
+        ) {
+          return true;
+        }
+        if (typeof f.predicate === 'function') {
+          return f.predicate(row, val);
+        }
         const rowVal = row?.[f.id];
         if (f.type === 'multi-select') return val.includes(rowVal);
         if (f.type === 'select') return rowVal === val;
