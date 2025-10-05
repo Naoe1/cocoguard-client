@@ -25,9 +25,8 @@ export const createProductSchema = z.object({
   image: z
     .string()
     .url({ message: 'Please enter a valid URL' })
-    .max(300, { message: 'Max length is 300 characters' })
-    .optional()
-    .or(z.literal('')),
+    .min(1, { message: 'Image URL is required' })
+    .max(300, { message: 'Max length is 300 characters' }),
 });
 
 export const createProduct = (data) => {

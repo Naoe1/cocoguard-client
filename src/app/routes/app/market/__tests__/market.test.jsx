@@ -48,7 +48,7 @@ const mockProducts = {
       description: 'Fresh coconut product',
       price: 50,
       amount_to_sell: 100,
-      image: '',
+      image: 'https://example.com/product.jpg',
     },
     {
       id: 'p2',
@@ -199,7 +199,7 @@ describe('Market Integration Tests', () => {
       description: 'Refined oil',
       price: 60,
       amount_to_sell: 40,
-      image: '',
+      image: 'https://example.com/product.jpg',
     };
 
     api.post.mockResolvedValueOnce({ data: newProduct });
@@ -244,6 +244,11 @@ describe('Market Integration Tests', () => {
       '40',
     );
 
+    await userEvent.type(
+      within(drawer).getByLabelText(/market image url/i),
+      'https://example.com/product.jpg',
+    );
+
     await userEvent.click(
       within(drawer).getByRole('button', { name: /submit/i }),
     );
@@ -255,6 +260,7 @@ describe('Market Integration Tests', () => {
         description: 'Refined oil',
         price: 60,
         amountToSell: 40,
+        image: 'https://example.com/product.jpg',
       }),
     );
 
@@ -307,6 +313,10 @@ describe('Market Integration Tests', () => {
     await userEvent.type(priceInput, '55');
     await userEvent.clear(amountInput);
     await userEvent.type(amountInput, '120');
+    await userEvent.type(
+      within(dialog).getByLabelText(/image url/i),
+      'https://example.com/product.jpg',
+    );
 
     await userEvent.click(
       within(dialog).getByRole('button', { name: /update product/i }),

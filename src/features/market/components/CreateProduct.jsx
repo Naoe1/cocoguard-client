@@ -215,10 +215,10 @@ export const CreateProduct = ({ TriggerBtn }) => {
             name="image"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Market Image URL</FormLabel>
+                <FormLabel>Market Image URL *</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="https://example.com/image.jpg (optional)"
+                    placeholder="https://example.com/image.jpg"
                     {...field}
                     value={field.value ?? ''}
                     disabled={createProductMutation.isPending}

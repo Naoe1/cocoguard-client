@@ -29,6 +29,7 @@ describe('product schema', () => {
       price: 10.99,
       amountToSell: 100,
       description: 'A fine product',
+      image: 'https://example.com/product.jpg',
     };
 
     const result = createProductSchema.safeParse(validData);
@@ -41,6 +42,7 @@ describe('product schema', () => {
       inventoryItemId: '123',
       price: 'ten dollars',
       amountToSell: 100,
+      image: 'https://example.com/product.jpg',
     };
 
     const result = createProductSchema.safeParse(invalidData);
@@ -63,6 +65,7 @@ describe('product schema', () => {
       inventoryItemId: '12345678901234567890123456789012345678901234567890123',
       price: 10.99,
       amountToSell: 100,
+      image: 'https://example.com/product.jpg',
     };
 
     const result = createProductSchema.safeParse(invalidData);
@@ -77,6 +80,7 @@ describe('product schema', () => {
       price: 10.99,
       amountToSell: 100,
       description: longDescription,
+      image: 'https://example.com/product.jpg',
     };
 
     const result = createProductSchema.safeParse(invalidData);
@@ -89,6 +93,7 @@ describe('product schema', () => {
       inventoryItemId: '123',
       price: -5,
       amountToSell: 100,
+      image: 'https://example.com/product.jpg',
     };
 
     const result = createProductSchema.safeParse(invalidData);
@@ -101,6 +106,7 @@ describe('product schema', () => {
       inventoryItemId: '123',
       price: 1500000,
       amountToSell: 100,
+      image: 'https://example.com/product.jpg',
     };
 
     const result = createProductSchema.safeParse(invalidData);
@@ -113,6 +119,7 @@ describe('product schema', () => {
       inventoryItemId: '123',
       price: 10.99,
       amountToSell: -1,
+      image: 'https://example.com/product.jpg',
     };
 
     const result = createProductSchema.safeParse(invalidData);
@@ -125,6 +132,7 @@ describe('product schema', () => {
       inventoryItemId: '123',
       price: 10.99,
       amountToSell: 1500000,
+      image: 'https://example.com/product.jpg',
     };
 
     const result = createProductSchema.safeParse(invalidData);
@@ -162,6 +170,7 @@ describe('product schema', () => {
       inventoryItemId: '123',
       price: 10.99,
       amountToSell: 10.5,
+      image: 'https://example.com/product.jpg',
     };
 
     const result = createProductSchema.safeParse(invalidData);
@@ -171,11 +180,23 @@ describe('product schema', () => {
     );
   });
 
+  it('should require image field', () => {
+    const invalidData = {
+      inventoryItemId: '123',
+      price: 10.99,
+      amountToSell: 100,
+    };
+    const result = createProductSchema.safeParse(invalidData);
+    expect(result.success).toBe(false);
+    expect(result.error.issues[0].message).toBe('Required');
+  });
+
   it('should allow optional fields to be undefined', () => {
     const minimalData = {
       inventoryItemId: '123',
       price: 10.99,
       amountToSell: 100,
+      image: 'https://example.com/product.jpg',
     };
 
     const result = createProductSchema.safeParse(minimalData);
@@ -187,6 +208,7 @@ describe('product schema', () => {
       inventoryItemId: '123',
       price: '10.99',
       amountToSell: '100',
+      image: 'https://example.com/product.jpg',
     };
 
     const result = createProductSchema.safeParse(data);
