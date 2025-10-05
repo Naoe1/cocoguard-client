@@ -48,7 +48,7 @@ export const DashboardView = () => {
           title={'Inventory Items'}
           icon={<Package className="h-4 w-4 text-muted-foreground" />}
           value={inventoryStats?.count || 0}
-          change={`+${inventoryStats?.lowStockCount || 0} low stock items`}
+          change={`${inventoryStats?.lowStockCount || 0} low stock items`}
           isLoading={inventoryStatsQuery.isLoading}
         />
         <SummaryCard
