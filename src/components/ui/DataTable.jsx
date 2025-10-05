@@ -31,6 +31,7 @@ export const DataTable = ({
   const [globalFilter, setGlobalFilter] = useState('');
   const [expanded, setExpanded] = useState({});
   const [activeFilters, setActiveFilters] = useState({});
+  const [sorting, setSorting] = useState([]);
 
   const filteredData = React.useMemo(() => {
     if (!filters?.length) return data;
@@ -78,8 +79,9 @@ export const DataTable = ({
   const table = useReactTable({
     data: filteredData ?? [],
     columns: tableColumns,
-    state: { globalFilter, expanded },
+    state: { globalFilter, expanded, sorting },
     onGlobalFilterChange: setGlobalFilter,
+    onSortingChange: setSorting,
     onExpandedChange: setExpanded,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
@@ -167,10 +169,14 @@ export const DataTable = ({
                         className="ml-2 inline-block"
                         onClick={header.column.getToggleSortingHandler()}
                       >
-                        {header.column.getIsSorted() === 'asc' ? (
+                        {header.column.getIsSorted() === 'asc' && (
                           <ArrowUp className="h-4 w-4" />
-                        ) : (
+                        )}
+                        {header.column.getIsSorted() === 'desc' && (
                           <ArrowDown className="h-4 w-4" />
+                        )}
+                        {!header.column.getIsSorted() && (
+                          <ArrowUp className="h-4 w-4 opacity-30" />
                         )}
                       </button>
                     )}
