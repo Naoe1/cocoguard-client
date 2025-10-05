@@ -152,6 +152,7 @@ export const InventoryView = () => {
       },
     },
     {
+      accessorFn: (row) => row.stock_qty * row.stock_price,
       id: 'estimated_value',
       header: 'Estimated Value',
       cell: ({ row }) => {
@@ -188,7 +189,41 @@ export const InventoryView = () => {
 
   let inventory = inventoryQuery?.data?.data?.inventory || [];
 
+  const categoryOptions = [
+    { label: 'Fertilizer', value: 'Fertilizer' },
+    { label: 'Fungicide', value: 'Fungicide' },
+    { label: 'Product', value: 'Product' },
+    { label: 'Pesticide', value: 'Pesticide' },
+  ];
+
   return (
-    <DataTable columns={columns} data={inventory} CreateResource={CreateItem} />
+    <DataTable
+      columns={columns}
+      data={inventory}
+      CreateResource={CreateItem}
+      filters={[
+        {
+          id: 'category',
+          label: 'Category',
+          type: 'select',
+          options: categoryOptions,
+        },
+        {
+          id: 'low_stock',
+          label: 'Low Stock',
+          type: 'select',
+          options: [
+            { label: 'Low Stock', value: 'low' },
+            { label: 'Normal Stock', value: 'normal' },
+          ],
+          predicate: (row, val) => {
+            console.log(row);
+            if (val === 'low') return row.stock_qty <= row.low_stock_alert;
+            if (val === 'normal') return row.stock_qty > row.low_stock_alert;
+            return true;
+          },
+        },
+      ]}
+    />
   );
 };

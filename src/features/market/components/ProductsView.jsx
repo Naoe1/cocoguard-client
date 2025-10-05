@@ -99,7 +99,7 @@ export const ProductsView = () => {
     {
       header: 'Name',
       accessorFn: (row) => {
-        return row.original.inventory.name || '';
+        return row.inventory.name || '';
       },
       cell: ({ row }) => {
         const { name, unit, amount_per_unit } = row.original.inventory;

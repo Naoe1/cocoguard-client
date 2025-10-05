@@ -66,6 +66,13 @@ const actions = [
   },
 ];
 
+const categoryOptions = [
+  { label: 'Herbicide', value: 'Herbicide' },
+  { label: 'Fungicide', value: 'Fungicide' },
+  { label: 'Pesticide', value: 'Pesticide' },
+  { label: 'Fertilizer', value: 'Fertilizer' },
+];
+
 export const TreatmentsView = ({ queryParams }) => {
   const { auth } = useAuth();
   const baseColumns = [
@@ -138,6 +145,14 @@ export const TreatmentsView = ({ queryParams }) => {
       columns={columns}
       data={treatments}
       CreateResource={CreateTreatment}
+      filters={[
+        {
+          id: 'type',
+          label: 'Type',
+          type: 'select',
+          options: categoryOptions,
+        },
+      ]}
     />
   );
 };

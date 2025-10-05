@@ -146,12 +146,24 @@ export const CoconutsView = () => {
   }
   let coconuts = coconutQuery?.data?.data?.coconuts || [];
 
+  const categoryOptions = [
+    { label: 'Healthy', value: 'Healthy' },
+    { label: 'Diseased', value: 'Diseased' },
+  ];
   return (
     <>
       <DataTable
         columns={columns}
         data={coconuts}
         CreateResource={CreateCoconut}
+        filters={[
+          {
+            id: 'status',
+            label: 'Status',
+            type: 'select',
+            options: categoryOptions,
+          },
+        ]}
       />
     </>
   );
