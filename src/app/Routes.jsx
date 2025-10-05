@@ -31,6 +31,7 @@ import ProductRoutes from './routes/market/Product';
 import { CartView } from '@/features/store/components/CartView';
 import { WeatherRoute } from './routes/app/Weather';
 import { SaleHistoryRoute } from './routes/app/market/SaleHistory';
+import { AuditLogsRoute } from './routes/app/AuditLogs';
 import NotFound from '@/components/errors/NotFound';
 
 export const createRouter = () => {
@@ -178,6 +179,10 @@ export const createRouter = () => {
         {
           path: 'weather',
           element: <WeatherRoute />,
+        },
+        {
+          path: 'logs',
+          element: <AuditLogsRoute />,
         },
       ],
     },

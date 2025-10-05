@@ -4,6 +4,7 @@ import {
   Box,
   SquareUserRound,
   Sun,
+  Logs,
 } from 'lucide-react';
 import {
   SidebarGroup,
@@ -82,6 +83,14 @@ export const NavMain = ({ items }) => {
             <Link to="/app/staff">
               <SquareUserRound />
               <span>Staff</span>
+            </Link>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+        <SidebarMenuItem>
+          <SidebarMenuButton asChild tooltip="Weather">
+            <Link to="/app/logs">
+              <Logs />
+              <span>Audit Logs</span>
             </Link>
           </SidebarMenuButton>
         </SidebarMenuItem>
