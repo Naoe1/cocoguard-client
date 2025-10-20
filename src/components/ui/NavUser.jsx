@@ -84,12 +84,12 @@ export const NavUser = ({ auth, logout }) => {
                   <span>Account</span>
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem asChild>
+              {/* <DropdownMenuItem asChild>
                 <Link to="/app/billing">
                   <CreditCardIcon className="mr-2 h-4 w-4" />
                   <span>Billing</span>
                 </Link>
-              </DropdownMenuItem>
+              </DropdownMenuItem> */}
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={logout}>

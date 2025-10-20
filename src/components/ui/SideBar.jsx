@@ -51,7 +51,7 @@ export const AppSideBar = ({ ...props }) => {
               icon: Store,
               items: [
                 {
-                  title: 'Dashboard',
+                  title: 'Market Dashboard',
                   url: './market',
                 },
                 {

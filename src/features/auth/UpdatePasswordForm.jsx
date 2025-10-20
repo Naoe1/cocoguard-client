@@ -104,6 +104,9 @@ export const UpdatePasswordForm = ({ token }) => {
             </FormItem>
           )}
         />
+        <p className="text-xs text-muted-foreground">
+          Password must be at least 8 characters long.
+        </p>
         <Button type="submit" className="w-full" disabled={isLoading}>
           {isLoading ? 'Updating...' : 'Update Password'}
         </Button>

@@ -17,8 +17,7 @@ export const UpdatePasswordRoute = () => {
             Update Your Password
           </h2>
           <p className="mt-2 text-sm text-gray-600">
-            Enter your current password and a new password below to update your
-            account.
+            Enter your password below to update your account.
           </p>
         </div>
         <UpdatePasswordForm token={token} />
