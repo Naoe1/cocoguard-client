@@ -86,12 +86,14 @@ export const StoreView = ({ farmId }) => {
               className="flex flex-col overflow-hidden border border-gray-200 hover:shadow-md transition-all duration-200 ease-in-out bg-white hover:scale-[1.01] h-full w-full cursor-pointer"
               onClick={() => navigate(`./${product.id}`)}
             >
-              <CardHeader className="p-0 relative h-48 min-h-[12rem] max-h-48 overflow-hidden">
+              <CardHeader className="p-0 relative h-48 min-h-[12rem] max-h-48 overflow-hidden bg-gray-50 flex items-center justify-center">
                 {product.image ? (
                   <img
                     src={product.image}
                     alt={product.inventory?.name || 'Product image'}
-                    className="h-full w-full object-cover object-center"
+                    className="max-h-full max-w-full object-contain object-center"
+                    loading="lazy"
+                    decoding="async"
                     onError={(e) => {
                       const placeholder =
                         e.currentTarget.parentElement?.querySelector(

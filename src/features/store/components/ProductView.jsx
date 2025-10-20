@@ -74,12 +74,14 @@ export const ProductView = ({ productId, farmId }) => {
 
       <div className="grid grid-cols-1 md:grid-cols-[55%_45%] gap-8">
         <Card className="border-0 shadow-none overflow-hidden">
-          <CardHeader className="p-0 relative h-[400px] overflow-hidden bg-gray-50 rounded-lg">
+          <CardHeader className="p-0 relative h-[400px] overflow-hidden bg-gray-50 rounded-lg flex items-center justify-center">
             {product?.image ? (
               <img
                 src={product.image}
                 alt={product.inventory?.name || 'Product image'}
-                className="h-full w-full object-contain"
+                className="max-h-full max-w-full object-contain object-center p-2"
+                loading="lazy"
+                decoding="async"
                 onError={(e) => {
                   const placeholder =
                     e.currentTarget.parentElement?.querySelector(
@@ -89,11 +91,16 @@ export const ProductView = ({ productId, farmId }) => {
                   e.currentTarget.style.display = 'none';
                 }}
               />
-            ) : (
-              <div className="image-placeholder absolute inset-0 bg-gray-50 flex items-center justify-center text-gray-300">
-                <ImageIcon size={80} />
-              </div>
-            )}
+            ) : null}
+
+            <div
+              className={`image-placeholder absolute inset-0 bg-gray-50 flex items-center justify-center text-gray-300 ${
+                product?.image ? 'hidden' : 'flex'
+              }`}
+              style={!product?.image ? { display: 'flex' } : {}}
+            >
+              <ImageIcon size={80} />
+            </div>
           </CardHeader>
         </Card>
 
