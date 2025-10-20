@@ -95,10 +95,10 @@ export const UpdateCoconut = ({ coconutId, closeForm }) => {
           name="treeCode"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Tree Code *</FormLabel>
+              <FormLabel>Tree Nickname *</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="Enter tree code"
+                  placeholder="Enter tree nickname"
                   {...field}
                   disabled={updateCoconutMutation.isPending}
                 />

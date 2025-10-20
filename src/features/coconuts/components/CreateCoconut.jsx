@@ -100,10 +100,10 @@ export const CreateCoconut = () => {
             name="treeCode"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Tree Code *</FormLabel>
+                <FormLabel>Tree Nickname *</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Enter tree code"
+                    placeholder="Enter tree nickname"
                     maxLength={30}
                     {...field}
                   />

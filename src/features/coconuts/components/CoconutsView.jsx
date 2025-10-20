@@ -70,20 +70,24 @@ export const CoconutsView = () => {
   const { auth } = useAuth();
   const baseColumns = [
     {
-      accessorKey: 'tree_code',
-      header: 'Tree Code',
+      accessorKey: 'tree_seq',
+      header: 'Tree ID',
       cell: ({ row }) => {
-        const treeCode = row.getValue('tree_code');
+        const tree_seq = row.getValue('tree_seq');
         const coconutId = row.original.id;
         return (
           <Link
             to={`/app/coconuts/${coconutId}`}
             className="text-blue-600 hover:text-blue-800 hover:underline"
           >
-            {treeCode}
+            {tree_seq}
           </Link>
         );
       },
+    },
+    {
+      accessorKey: 'tree_code',
+      header: 'Tree Nickname',
     },
     {
       accessorKey: 'planting_date',
