@@ -128,7 +128,7 @@ describe('Coconuts Integration Tests', () => {
     });
 
     await userEvent.type(
-      within(drawer).getByLabelText(/Tree Code/i),
+      within(drawer).getByLabelText(/Tree Nickname/i),
       'COC-003',
     );
     await userEvent.type(within(drawer).getByLabelText(/Height/i), '12.5');
@@ -208,7 +208,7 @@ describe('Coconuts Integration Tests', () => {
       name: /edit COC-001/i,
     });
 
-    const treeCodeInput = within(dialog).getByLabelText(/Tree Code/i);
+    const treeCodeInput = within(dialog).getByLabelText(/Tree Nickname/i);
     const heightInput = within(dialog).getByLabelText(/Height/i);
     const trunkDiameterInput = within(dialog).getByLabelText(/Trunk Diameter/i);
 
@@ -339,14 +339,12 @@ describe('Coconuts Integration Tests', () => {
         <CoconutsRoutes />
       </TestWrapper>,
     );
-
     await waitFor(() => {
       expect(screen.getByText('COC-001')).toBeInTheDocument();
     });
-    const buttons = screen.queryAllByRole('button');
-    const dropdownButtons = buttons.filter(
-      (button) => button.getAttribute('aria-haspopup') === 'menu',
-    );
-    expect(dropdownButtons).toHaveLength(0);
+
+    expect(
+      screen.queryByRole('button', { name: /open menu/i }),
+    ).not.toBeInTheDocument();
   });
 });

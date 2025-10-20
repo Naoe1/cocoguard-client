@@ -483,7 +483,7 @@ describe('Auth Integration Test', () => {
         </AuthContext.Provider>,
       );
 
-      await userEvent.type(screen.getByLabelText('New Password'), '123');
+      await userEvent.type(screen.getByLabelText('New Password'), '123442425');
       await userEvent.type(
         screen.getByLabelText(/confirm new password/i),
         '456',
@@ -493,7 +493,7 @@ describe('Auth Integration Test', () => {
       );
 
       expect(
-        await screen.findByText(/at least 6 characters/i),
+        await screen.findByText(/at least 8 characters/i),
       ).toBeInTheDocument();
       expect(
         await screen.findByText(/passwords don't match/i),

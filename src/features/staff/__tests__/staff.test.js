@@ -27,7 +27,6 @@ describe('Staff schema', () => {
       firstName: 'John',
       lastName: 'Doe',
       email: 'john.doe@example.com',
-      password: 'password123',
       role: 'STAFF',
     };
     const res = createStaffSchema.safeParse(valid);
@@ -38,7 +37,6 @@ describe('Staff schema', () => {
     const res = createStaffSchema.safeParse({
       lastName: 'Doe',
       email: 'john.doe@example.com',
-      password: 'password123',
       role: 'STAFF',
     });
     expect(res.success).toBe(false);
@@ -49,7 +47,6 @@ describe('Staff schema', () => {
     const res = createStaffSchema.safeParse({
       firstName: 'John',
       email: 'john.doe@example.com',
-      password: 'password123',
       role: 'STAFF',
     });
     expect(res.success).toBe(false);
@@ -62,7 +59,6 @@ describe('Staff schema', () => {
       firstName: longFirstName,
       lastName: 'Doe',
       email: 'john.doe@example.com',
-      password: 'password123',
       role: 'STAFF',
     });
     expect(res.success).toBe(false);
@@ -75,7 +71,6 @@ describe('Staff schema', () => {
       firstName: 'John',
       lastName: longLastName,
       email: 'john.doe@example.com',
-      password: 'password123',
       role: 'STAFF',
     });
     expect(res.success).toBe(false);
@@ -86,7 +81,6 @@ describe('Staff schema', () => {
     const res = createStaffSchema.safeParse({
       firstName: 'John',
       lastName: 'Doe',
-      password: 'password123',
       role: 'STAFF',
     });
     expect(res.success).toBe(false);
@@ -98,7 +92,6 @@ describe('Staff schema', () => {
       firstName: 'John',
       lastName: 'Doe',
       email: 'not-an-email',
-      password: 'password123',
       role: 'STAFF',
     });
     expect(res.success).toBe(false);
@@ -110,25 +103,10 @@ describe('Staff schema', () => {
       firstName: 'John',
       lastName: 'Doe',
       email: 'john.doe@example.com',
-      password: 'password123',
       role: 'NOT_A_REAL_ROLE',
     });
     expect(res.success).toBe(false);
     expect(res.error.issues[0].message).toBe('Role is required');
-  });
-
-  it('requires password with minimum length', () => {
-    const res = createStaffSchema.safeParse({
-      firstName: 'John',
-      lastName: 'Doe',
-      email: 'john.doe@example.com',
-      password: 'short',
-      role: 'STAFF',
-    });
-    expect(res.success).toBe(false);
-    expect(res.error.issues[0].message).toBe(
-      'Password must be at least 8 characters long',
-    );
   });
 
   it('requires a valid role', () => {
@@ -136,7 +114,6 @@ describe('Staff schema', () => {
       firstName: 'John',
       lastName: 'Doe',
       email: 'john.doe@example.com',
-      password: 'password123',
       role: 'INVALID_ROLE',
     });
     expect(res.success).toBe(false);
@@ -148,7 +125,6 @@ describe('Staff schema', () => {
       firstName: '  John  ',
       lastName: '  Doe  ',
       email: 'john.doe@example.com',
-      password: 'password123',
       role: 'ADMIN',
     });
     expect(res.success).toBe(true);
@@ -167,7 +143,6 @@ describe('staff api', () => {
       firstName: 'Jane',
       lastName: 'Doe',
       email: 'jane.doe@example.com',
-      password: 'password123',
       role: 'ADMIN',
     };
     const mockResponse = { data: { id: 'staff1', ...mockData } };
@@ -175,7 +150,7 @@ describe('staff api', () => {
 
     const result = await createStaff(mockData);
 
-    expect(api.post).toHaveBeenCalledWith('/staff', mockData);
+    expect(api.post).toHaveBeenCalledWith('/staff/invite', mockData);
     expect(result).toEqual(mockResponse);
   });
 
@@ -184,14 +159,13 @@ describe('staff api', () => {
       firstName: 'Jane',
       lastName: 'Doe',
       email: 'jane.doe@example.com',
-      password: 'password123',
       role: 'ADMIN',
     };
     const mockError = new Error('Network error');
     api.post.mockRejectedValue(mockError);
 
     await expect(createStaff(mockData)).rejects.toThrow('Network error');
-    expect(api.post).toHaveBeenCalledWith('/staff', mockData);
+    expect(api.post).toHaveBeenCalledWith('/staff/invite', mockData);
   });
 
   it('should call api.delete with correct staff ID', async () => {

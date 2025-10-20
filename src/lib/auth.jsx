@@ -8,7 +8,7 @@ export const registerInputSchema = z.object({
   firstName: z.string().min(1, 'Required').max(40, 'First name too long'),
   lastName: z.string().min(1, 'Required').max(40, 'Last name too long'),
   email: z.string().min(1, 'Required').email().max(50, 'Email too long'),
-  password: z.string().min(6, 'Minimum 6 characters'),
+  password: z.string().min(8, 'Minimum 8 characters'),
   paypal_email: z
     .string()
     .min(1, 'Required')

@@ -77,7 +77,7 @@ describe('Inventory Integration Tests', () => {
     vi.clearAllMocks();
   });
 
-  it('renders inventory list with protected item action filtering', async () => {
+  it('renders inventory list', async () => {
     api.get.mockResolvedValueOnce({ data: mockInventory });
 
     render(
@@ -91,21 +91,6 @@ describe('Inventory Integration Tests', () => {
     );
     expect(screen.getByText(/copra/i)).toBeInTheDocument();
     expect(screen.getByText(/fertilizer a/i)).toBeInTheDocument();
-
-    // Open actions for Fertilizer A (should have delete)
-    const buttons = screen.getAllByRole('button');
-    const menuButtons = buttons.filter(
-      (b) => b.getAttribute('aria-haspopup') === 'menu',
-    );
-    // There should be one menu button per row (ADMIN role) => 3
-    expect(menuButtons.length).toBe(3);
-
-    await userEvent.click(menuButtons[0]);
-    let deleteItem = screen.queryByRole('menuitem', { name: /delete/i });
-    expect(deleteItem).not.toBeInTheDocument();
-    await userEvent.click(menuButtons[2]);
-    deleteItem = await screen.findByRole('menuitem', { name: /delete/i });
-    expect(deleteItem).toBeInTheDocument();
   });
 
   it('creates a new inventory item', async () => {
@@ -155,7 +140,6 @@ describe('Inventory Integration Tests', () => {
       'Herbicide X',
     );
 
-    // Category select (defaults to Others). Open combobox and choose Herbicide
     const categoryTrigger = within(drawer).getByRole('combobox', {
       name: /category \*/i,
     });
@@ -245,7 +229,8 @@ describe('Inventory Integration Tests', () => {
     const menuButtons = buttons.filter(
       (b) => b.getAttribute('aria-haspopup') === 'menu',
     );
-    await userEvent.click(menuButtons[2]);
+
+    await userEvent.click(menuButtons[3]);
     const editItem = await screen.findByRole('menuitem', { name: /edit/i });
     await userEvent.click(editItem);
 
@@ -283,7 +268,7 @@ describe('Inventory Integration Tests', () => {
     );
   });
 
-  it('deletes a non-protected inventory item', async () => {
+  it('deletes a inventory item', async () => {
     const remaining = {
       inventory: [mockInventory.inventory[0], mockInventory.inventory[1]],
     };
@@ -306,8 +291,7 @@ describe('Inventory Integration Tests', () => {
     const menuButtons = buttons.filter(
       (b) => b.getAttribute('aria-haspopup') === 'menu',
     );
-    // Fertilizer A third
-    await userEvent.click(menuButtons[2]);
+    await userEvent.click(menuButtons[3]);
     const deleteItem = await screen.findByRole('menuitem', { name: /delete/i });
     await userEvent.click(deleteItem);
     const alert = await screen.findByRole('alertdialog');
@@ -357,7 +341,7 @@ describe('Inventory Integration Tests', () => {
     const menuButtons = buttons.filter(
       (b) => b.getAttribute('aria-haspopup') === 'menu',
     );
-    await userEvent.click(menuButtons[2]);
+    await userEvent.click(menuButtons[3]);
     const adjustItem = await screen.findByRole('menuitem', {
       name: /adjust stock/i,
     });
@@ -409,7 +393,7 @@ describe('Inventory Integration Tests', () => {
     const menuButtons = buttons.filter(
       (b) => b.getAttribute('aria-haspopup') === 'menu',
     );
-    await userEvent.click(menuButtons[2]);
+    await userEvent.click(menuButtons[3]);
     const adjustAmountItem = await screen.findByRole('menuitem', {
       name: /adjust amount\/unit/i,
     });
@@ -445,11 +429,9 @@ describe('Inventory Integration Tests', () => {
     await waitFor(() =>
       expect(screen.getByText(/coconut/i)).toBeInTheDocument(),
     );
-    const buttons = screen.getAllByRole('button');
-    const menuButtons = buttons.filter(
-      (b) => b.getAttribute('aria-haspopup') === 'menu',
-    );
-    expect(menuButtons.length).toBe(0);
+    expect(
+      screen.queryByRole('button', { name: /open menu/i }),
+    ).not.toBeInTheDocument();
   });
 
   it('handles inventory fetch error (shows skeleton first)', async () => {

@@ -33,14 +33,14 @@ describe('Register schema', () => {
     expect(res.error.issues[0].message).toMatch(/Required|is required/i);
   });
 
-  it('rejects password < 6', () => {
+  it('rejects password < 8', () => {
     const res = registerInputSchema.safeParse({
       ...baseValid,
       password: '123',
     });
     expect(res.success).toBe(false);
     expect(
-      res.error.issues.find((i) => /Minimum 6 characters/i.test(i.message)),
+      res.error.issues.find((i) => /Minimum 8 characters/i.test(i.message)),
     ).toBeTruthy();
   });
 
@@ -186,14 +186,14 @@ describe('Update password schema', () => {
     expect(res.success).toBe(true);
   });
 
-  it('rejects password shorter than 6', () => {
+  it('rejects password shorter than 8', () => {
     const res = updatePasswordInputSchema.safeParse({
       password: '123',
       confirmPassword: '123',
     });
     expect(res.success).toBe(false);
     expect(
-      res.error.issues.find((i) => /at least 6 characters/i.test(i.message)),
+      res.error.issues.find((i) => /at least 8 characters/i.test(i.message)),
     ).toBeTruthy();
   });
 

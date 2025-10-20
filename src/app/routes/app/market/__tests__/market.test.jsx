@@ -410,10 +410,10 @@ describe('Market Integration Tests', () => {
     );
 
     await waitFor(() => expect(screen.getByText(/#101/)).toBeInTheDocument());
-    const expandButtons = screen
-      .getAllByRole('button')
-      .filter((btn) => btn.querySelector('svg'));
-    await userEvent.click(expandButtons[0]);
+    const rows = screen.getAllByRole('row');
+    const targetRow = rows.length > 1 ? rows[1] : rows[0];
+    await userEvent.click(targetRow);
+
     await waitFor(() =>
       expect(screen.getByText(/order items:/i)).toBeInTheDocument(),
     );

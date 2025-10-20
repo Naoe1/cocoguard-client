@@ -300,11 +300,9 @@ describe('Treatments Integration Tests', () => {
       expect(screen.getByText('Neem Oil')).toBeInTheDocument(),
     );
 
-    const buttons = screen.queryAllByRole('button');
-    const dropdownButtons = buttons.filter(
-      (b) => b.getAttribute('aria-haspopup') === 'menu',
-    );
-    expect(dropdownButtons).toHaveLength(0);
+    expect(
+      screen.queryByRole('button', { name: /open menu/i }),
+    ).not.toBeInTheDocument();
   });
 
   it('should create a treatment using inventory item (deduct flow)', async () => {
