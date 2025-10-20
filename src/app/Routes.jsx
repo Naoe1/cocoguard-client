@@ -33,6 +33,7 @@ import { WeatherRoute } from './routes/app/Weather';
 import { SaleHistoryRoute } from './routes/app/market/SaleHistory';
 import { AuditLogsRoute } from './routes/app/AuditLogs';
 import NotFound from '@/components/errors/NotFound';
+import { WelcomeRoute } from './routes/auth/Welcome';
 
 export const createRouter = () => {
   return createBrowserRouter([
@@ -54,6 +55,11 @@ export const createRouter = () => {
     {
       path: '/auth/forgot',
       element: <ForgotRoute />,
+      errorElement: <MainErrorFallback />,
+    },
+    {
+      path: '/auth/welcome',
+      element: <WelcomeRoute />,
       errorElement: <MainErrorFallback />,
     },
     {

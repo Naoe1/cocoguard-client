@@ -7,13 +7,13 @@ import { queryClient } from './reactQuery';
 export const registerInputSchema = z.object({
   firstName: z.string().min(1, 'Required').max(40, 'First name too long'),
   lastName: z.string().min(1, 'Required').max(40, 'Last name too long'),
-  email: z.string().min(1, 'Required').email().max(30, 'Email too long'),
+  email: z.string().min(1, 'Required').email().max(50, 'Email too long'),
   password: z.string().min(6, 'Minimum 6 characters'),
   paypal_email: z
     .string()
     .min(1, 'Required')
     .email('Invalid Paypal Email')
-    .max(30, 'Too long'),
+    .max(50, 'Too long'),
   street: z
     .string()
     .min(1, 'Street address is required')
@@ -54,7 +54,7 @@ export const updatePasswordInputSchema = z
   .object({
     password: z
       .string()
-      .min(6, { message: 'Password must be at least 6 characters long' }),
+      .min(8, { message: 'Password must be at least 8 characters long' }),
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
@@ -155,6 +155,15 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const welcomeStaff = async (data, token) => {
+    try {
+      const response = await api.post('/auth/welcome?token=' + token, data);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  };
+
   useLayoutEffect(() => {
     const requestIntercept = api.interceptors.request.use(
       (config) => {
@@ -182,6 +191,7 @@ export const AuthProvider = ({ children }) => {
         fetchMe,
         forgotPassword,
         updatePassword,
+        welcomeStaff,
       }}
     >
       {children}

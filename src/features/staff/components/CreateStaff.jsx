@@ -21,7 +21,6 @@ export const CreateStaff = ({ TriggerBtn }) => {
       firstName: '',
       lastName: '',
       email: '',
-      password: '',
       role: 'STAFF',
     },
   });
@@ -60,8 +59,8 @@ export const CreateStaff = ({ TriggerBtn }) => {
     <FormDrawer
       isDone={createStaffMutation.isSuccess}
       description={'Add a new staff member to the system.'}
-      triggerButton={TriggerBtn ?? <Button size="sm">Create Staff</Button>}
-      title="Create Staff Member"
+      triggerButton={TriggerBtn ?? <Button size="sm">Invite Staff</Button>}
+      title="Invite Staff Member"
       submitButton={
         <Button
           form="create-staff"
@@ -127,25 +126,6 @@ export const CreateStaff = ({ TriggerBtn }) => {
                     placeholder="Enter email address"
                     {...field}
                     disabled={createStaffMutation.isPending}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Password *</FormLabel>
-                <FormControl>
-                  <Input
-                    type="password"
-                    placeholder="Enter password"
-                    {...field}
-                    disabled={createStaffMutation.isPending}
-                    autoComplete="new-password"
                   />
                 </FormControl>
                 <FormMessage />

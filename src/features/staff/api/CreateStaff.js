@@ -18,16 +18,13 @@ export const createStaffSchema = z.object({
     .string()
     .email({ message: 'Invalid email address' })
     .min(1, { message: 'Email is required' }),
-  password: z
-    .string()
-    .min(8, { message: 'Password must be at least 8 characters long' }),
   role: z.enum(['ADMIN', 'STAFF'], {
     errorMap: () => ({ message: 'Role is required' }),
   }),
 });
 
 export const createStaff = (data) => {
-  return api.post('/staff', data);
+  return api.post('/staff/invite', data);
 };
 
 export const useCreateStaff = ({ mutationConfig } = {}) => {
