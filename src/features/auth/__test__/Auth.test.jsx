@@ -53,15 +53,6 @@ describe('Register schema', () => {
     expect(res.error.issues[0].message).toMatch(/email/i);
   });
 
-  it('rejects invalid paypal email', () => {
-    const res = registerInputSchema.safeParse({
-      ...baseValid,
-      paypal_email: 'wrong',
-    });
-    expect(res.success).toBe(false);
-    expect(res.error.issues[0].message).toMatch(/paypal/i);
-  });
-
   it('rejects firstName > 40 characters', () => {
     const res = registerInputSchema.safeParse({
       ...baseValid,

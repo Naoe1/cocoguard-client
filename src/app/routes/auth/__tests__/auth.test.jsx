@@ -199,108 +199,6 @@ describe('Auth Integration Test', () => {
     window.HTMLElement.prototype.scrollIntoView = vi.fn();
     window.HTMLElement.prototype.hasPointerCapture = vi.fn();
     window.HTMLElement.prototype.releasePointerCapture = vi.fn();
-    it('registers successfully and redirects to /app', async () => {
-      const mockRegister = vi.fn().mockResolvedValue({
-        data: { user: { id: 123, email: 'john@doe.com' }, access_token: 't' },
-      });
-
-      render(
-        <AuthContext.Provider
-          value={{ register: mockRegister, auth: { user: null } }}
-        >
-          <MemoryRouter initialEntries={['/auth/register']}>
-            <Routes>
-              <Route path="/auth/register" element={<RegisterRoute />} />
-              <Route path="/app" element={<div>App Dashboard</div>} />
-            </Routes>
-          </MemoryRouter>
-        </AuthContext.Provider>,
-      );
-
-      await userEvent.type(screen.getByLabelText(/first name/i), 'John');
-      await userEvent.type(screen.getByLabelText(/last name/i), 'Doe');
-      await userEvent.type(screen.getByLabelText(/^email$/i), 'john@doe.com');
-      await userEvent.type(screen.getByLabelText(/^password$/i), 'hunter22');
-      await userEvent.type(
-        screen.getByLabelText(/paypal email/i),
-        'paypal@doe.com',
-      );
-      await userEvent.type(
-        screen.getByLabelText(/street address/i),
-        '123 Mabini St.',
-      );
-      await userEvent.type(screen.getByLabelText(/barangay/i), 'Barangay 1');
-      await userEvent.type(
-        screen.getByLabelText(/city\/municipality/i),
-        'Quezon City',
-      );
-      await userEvent.type(screen.getByLabelText(/province/i), 'Metro Manila');
-
-      await userEvent.click(screen.getByLabelText(/region/i));
-      await userEvent.click(await screen.findByRole('option', { name: 'NCR' }));
-
-      await userEvent.type(screen.getByLabelText(/postal code/i), '1100');
-
-      const btn = screen.getByRole('button', { name: /sign up/i });
-      await userEvent.click(btn);
-
-      expect(mockRegister).toHaveBeenCalledWith({
-        firstName: 'John',
-        lastName: 'Doe',
-        email: 'john@doe.com',
-        password: 'hunter22',
-        paypal_email: 'paypal@doe.com',
-        street: '123 Mabini St.',
-        barangay: 'Barangay 1',
-        city: 'Quezon City',
-        province: 'Metro Manila',
-        region: 'NCR',
-        postal_code: '1100',
-      });
-
-      expect(await screen.findByText('App Dashboard')).toBeInTheDocument();
-    });
-
-    it('updates AuthContext with user and token after register (provider integration)', async () => {
-      const user = { id: 99, email: 'u@x.com' };
-      const token = 'ACCESS_TOKEN';
-      const postSpy = vi.spyOn(api, 'post').mockResolvedValue({
-        data: { user, access_token: token },
-      });
-
-      const WhoAmI = () => {
-        const { auth } = useAuth();
-        return <div>AuthUser: {auth.user ? auth.user.email : 'none'}</div>;
-      };
-
-      render(
-        <AuthProvider>
-          <MemoryRouter initialEntries={['/auth/register']}>
-            <Routes>
-              <Route path="/auth/register" element={<RegisterRoute />} />
-              <Route path="/app" element={<WhoAmI />} />
-            </Routes>
-          </MemoryRouter>
-        </AuthProvider>,
-      );
-
-      await userEvent.type(screen.getByLabelText(/first name/i), 'J');
-      await userEvent.type(screen.getByLabelText(/last name/i), 'D');
-      await userEvent.type(screen.getByLabelText(/^email$/i), 'u@x.com');
-      await userEvent.type(screen.getByLabelText(/^password$/i), 'hunter22');
-      await userEvent.type(screen.getByLabelText(/paypal email/i), 'p@x.com');
-      await userEvent.type(screen.getByLabelText(/street address/i), 'x');
-      await userEvent.type(screen.getByLabelText(/barangay/i), 'x');
-      await userEvent.type(screen.getByLabelText(/city\/municipality/i), 'x');
-      await userEvent.type(screen.getByLabelText(/province/i), 'x');
-      await userEvent.click(screen.getByLabelText(/region/i));
-      await userEvent.click(await screen.findByRole('option', { name: 'NCR' }));
-      await userEvent.type(screen.getByLabelText(/postal code/i), '1234');
-      await userEvent.click(screen.getByRole('button', { name: /sign up/i }));
-
-      expect(await screen.findByText(/authuser: u@x.com/i)).toBeInTheDocument();
-      postSpy.mockRestore();
-    });
 
     it('shows validation errors and does not submit when form is invalid', async () => {
       const mockRegister = vi.fn();
@@ -319,7 +217,7 @@ describe('Auth Integration Test', () => {
       await userEvent.click(screen.getByRole('button', { name: /sign up/i }));
 
       expect(mockRegister).not.toHaveBeenCalled();
-      expect(await screen.findAllByText(/required/i)).toHaveLength(10);
+      expect(await screen.findAllByText(/required/i)).toHaveLength(9);
     });
   });
 

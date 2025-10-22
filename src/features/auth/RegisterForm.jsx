@@ -24,9 +24,9 @@ import {
 
 export const RegisterForm = () => {
   const { register } = useAuth();
-  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
 
   const form = useForm({
     resolver: zodResolver(registerInputSchema),
@@ -35,7 +35,6 @@ export const RegisterForm = () => {
       lastName: '',
       email: '',
       password: '',
-      paypal_email: '',
       street: '',
       barangay: '',
       city: '',
@@ -69,8 +68,11 @@ export const RegisterForm = () => {
     try {
       setIsLoading(true);
       setError('');
+      setSuccessMessage('');
       await register(data);
-      navigate('/app');
+      setSuccessMessage(
+        `We've sent a confirmation link to ${data.email}. Please check your inbox to verify your email before signing in.`,
+      );
     } catch (err) {
       console.log(err);
       setError(
@@ -88,6 +90,11 @@ export const RegisterForm = () => {
           {error && (
             <div className="p-3 text-sm font-medium text-white bg-red-500 rounded-md">
               {error}
+            </div>
+          )}
+          {successMessage && (
+            <div className="p-3 text-sm font-medium text-white bg-green-500 rounded-md">
+              {successMessage}
             </div>
           )}
 
@@ -149,23 +156,6 @@ export const RegisterForm = () => {
                     autoComplete="on"
                   />
                 </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="paypal_email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>PayPal Email</FormLabel>
-                <FormControl>
-                  <Input type="email" disabled={isLoading} {...field} />
-                </FormControl>
-                <FormDescription>
-                  Online payment would be sent to this email.
-                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}

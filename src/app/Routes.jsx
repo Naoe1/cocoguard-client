@@ -34,6 +34,7 @@ import { SaleHistoryRoute } from './routes/app/market/SaleHistory';
 import { AuditLogsRoute } from './routes/app/AuditLogs';
 import NotFound from '@/components/errors/NotFound';
 import { WelcomeRoute } from './routes/auth/Welcome';
+import { ConfirmRoute } from './routes/auth/Confirm';
 
 export const createRouter = () => {
   return createBrowserRouter([
@@ -65,6 +66,11 @@ export const createRouter = () => {
     {
       path: '/auth/update-password',
       element: <UpdatePasswordRoute />,
+      errorElement: <MainErrorFallback />,
+    },
+    {
+      path: '/auth/confirm',
+      element: <ConfirmRoute />,
       errorElement: <MainErrorFallback />,
     },
     {

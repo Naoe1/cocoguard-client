@@ -9,11 +9,6 @@ export const registerInputSchema = z.object({
   lastName: z.string().min(1, 'Required').max(40, 'Last name too long'),
   email: z.string().min(1, 'Required').email().max(50, 'Email too long'),
   password: z.string().min(8, 'Minimum 8 characters'),
-  paypal_email: z
-    .string()
-    .min(1, 'Required')
-    .email('Invalid Paypal Email')
-    .max(50, 'Too long'),
   street: z
     .string()
     .min(1, 'Street address is required')
@@ -83,7 +78,6 @@ export const AuthProvider = ({ children }) => {
   const register = async (input) => {
     try {
       const response = await api.post('/auth/register', input);
-      setAuth({ user: response.data.user, token: response.data.access_token });
       return response;
     } catch (error) {
       throw error;
@@ -164,6 +158,17 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const confirmEmail = async (data, token) => {
+    try {
+      console.log(token);
+      const response = await api.post('/auth/confirm?token=' + token, data);
+      return response.data;
+    } catch (error) {
+      console.error('Error in confirmEmail:', error);
+      throw error;
+    }
+  };
+
   useLayoutEffect(() => {
     const requestIntercept = api.interceptors.request.use(
       (config) => {
@@ -192,6 +197,7 @@ export const AuthProvider = ({ children }) => {
         forgotPassword,
         updatePassword,
         welcomeStaff,
+        confirmEmail,
       }}
     >
       {children}

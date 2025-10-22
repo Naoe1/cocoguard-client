@@ -83,9 +83,9 @@ describe('AuthProvider', () => {
     clearSpy.mockRestore();
   });
 
-  it('register success sets user & token', async () => {
+  it('register success', async () => {
     const user = { id: 2, email: 'new@user.com' };
-    postSpy.mockResolvedValueOnce({ data: { user, access_token: 'RTOKEN' } });
+    postSpy.mockResolvedValueOnce({ data: { user } });
     const result = setup();
     await act(async () => {
       await result.current.register({ email: 'new@user.com', password: 'pw' });
@@ -94,8 +94,6 @@ describe('AuthProvider', () => {
       email: 'new@user.com',
       password: 'pw',
     });
-    expect(result.current.auth.user).toEqual(user);
-    expect(result.current.auth.token).toBe('RTOKEN');
   });
 
   it('refresh success returns data without altering existing user', async () => {
