@@ -24,6 +24,7 @@ describe('UpdateAccount schema', () => {
     province: 'Laguna',
     region: 'Region IV-A',
     postal_code: '4027',
+    paypal_email: 'paypal@email.com',
   };
 
   it('accepts valid data', () => {

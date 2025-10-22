@@ -26,7 +26,7 @@ import { useState } from 'react';
 
 export const UpdateAccount = () => {
   const accountQuery = useAccount({});
-  const { setAuth, forgotPassword } = useAuth();
+  const { setAuth, forgotPassword, auth } = useAuth();
 
   const updateAccountMutation = useUpdateAccount({
     mutationConfig: {
@@ -70,6 +70,7 @@ export const UpdateAccount = () => {
       province: accountQuery.data?.data?.farmAddress?.province || '',
       region: accountQuery.data?.data?.farmAddress?.region || '',
       postal_code: accountQuery.data?.data?.farmAddress?.postal_code || '',
+      paypal_email: accountQuery.data?.data?.paypal_email || '',
     },
   });
 
@@ -143,6 +144,34 @@ export const UpdateAccount = () => {
               </FormControl>
             </FormItem>
           </div>
+          <div className="rounded-lg border bg-muted/30 p-6">
+            <div className="mb-4">
+              <h3 className="text-lg font-semibold">Paypal Email Address</h3>
+              <p className="text-sm text-muted-foreground">
+                Your email address is used for receiving payments.
+              </p>
+            </div>{' '}
+            <FormField
+              control={form.control}
+              name="paypal_email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input
+                      placeholder="Enter first name"
+                      {...field}
+                      disabled={
+                        updateAccountMutation.isPending ||
+                        auth.user.role === 'STAFF'
+                      }
+                      className="h-10"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
 
           <div className="space-y-6">
             <div className="border-b pb-3">
@@ -196,7 +225,6 @@ export const UpdateAccount = () => {
             </div>
           </div>
 
-          {/* Address Information Section */}
           <div className="space-y-6">
             <div className="border-b pb-3">
               <h3 className="text-lg font-semibold">Address Information</h3>
@@ -301,7 +329,9 @@ export const UpdateAccount = () => {
                       </FormLabel>
                       <Select
                         onValueChange={field.onChange}
-                        value={field.value}
+                        defaultValue={
+                          accountQuery.data?.data?.farmAddress?.region
+                        }
                         disabled={updateAccountMutation.isPending}
                       >
                         <FormControl className="w-full">

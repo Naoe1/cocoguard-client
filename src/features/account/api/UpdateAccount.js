@@ -7,6 +7,11 @@ export const updateAccountSchema = z.object({
     .string()
     .min(1, 'First name is required')
     .max(40, 'First name too long'),
+  paypal_email: z
+    .string()
+    .min(1, 'Required')
+    .email('Invalid Paypal Email')
+    .max(50, 'Too long'),
   lastName: z
     .string()
     .min(1, 'Last name is required')
