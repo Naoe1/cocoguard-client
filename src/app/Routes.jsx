@@ -35,6 +35,7 @@ import { AuditLogsRoute } from './routes/app/AuditLogs';
 import NotFound from '@/components/errors/NotFound';
 import { WelcomeRoute } from './routes/auth/Welcome';
 import { ConfirmRoute } from './routes/auth/Confirm';
+import { MapRoute } from './routes/app/Map';
 
 export const createRouter = () => {
   return createBrowserRouter([
@@ -191,6 +192,10 @@ export const createRouter = () => {
         {
           path: 'weather',
           element: <WeatherRoute />,
+        },
+        {
+          path: 'map',
+          element: <MapRoute />,
         },
         {
           path: 'logs',
