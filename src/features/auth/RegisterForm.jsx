@@ -80,6 +80,7 @@ export const RegisterForm = () => {
       );
     } finally {
       setIsLoading(false);
+      window.scrollTo(0, 0);
     }
   };
 
