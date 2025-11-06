@@ -11,12 +11,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/shared/components/ui/select';
+import { useAuth } from '@/lib/auth';
 
 export const WeatherView = () => {
-  const [location, setLocation] = useState('Manila');
+  const { auth } = useAuth();
+  const [location, setLocation] = useState(auth.user?.city || 'Manila');
   const [tempLocation, setTempLocation] = useState(location);
   const [timesteps, setTimesteps] = useState('daily');
-
   const weatherQuery = useWeatherForecast({
     location,
     timesteps: timesteps === 'daily' ? '1d' : '1h',
@@ -32,15 +33,8 @@ export const WeatherView = () => {
     setLocation(tempLocation);
   };
 
-  const rawForecastData = weatherQuery.data?.data?.timelines?.[timesteps];
+  const forecastData = weatherQuery.data?.data?.timelines?.[timesteps];
   const locationName = weatherQuery.data?.data?.location?.name;
-
-  const forecastData = useMemo(() => {
-    if (timesteps === 'hourly' && rawForecastData) {
-      return rawForecastData.slice(0, 9);
-    }
-    return rawForecastData;
-  }, [rawForecastData, timesteps]);
 
   return (
     <div className="flex flex-col gap-4 p-4 md:gap-6 md:p-6 lg:gap-8 lg:p-8">
