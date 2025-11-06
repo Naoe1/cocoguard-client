@@ -209,7 +209,6 @@ export default function FarmPlanner2D({
             );
           })}
         </select>
-        {notice && <span className="text-destructive">{notice}</span>}
       </div>
       {!isLoading ? (
         <svg
@@ -282,6 +281,7 @@ export default function FarmPlanner2D({
           Loading 2D map…
         </div>
       )}
+      {notice && <span className="text-destructive">{notice}</span>}
     </div>
   );
 }

@@ -195,20 +195,41 @@ function Popup({ tree, onClose, onRemove }) {
 
 function Tree({ position, index, coconut, onSelect, onHover }) {
   const [hovered, setHovered] = useState(false);
+
   const handleOver = (e) => {
     e.stopPropagation();
     setHovered(true);
     onHover?.(true);
   };
+
   const handleOut = (e) => {
     e.stopPropagation();
     setHovered(false);
     onHover?.(false);
   };
+
   const handleClick = (e) => {
     e.stopPropagation();
     onSelect?.({ index, position, coconut });
   };
+
+  const isDiseased = coconut?.status === 'Diseased';
+
+  const leafColor1 = isDiseased
+    ? hovered
+      ? '#c53030'
+      : '#e53e3e'
+    : hovered
+    ? '#38a169'
+    : '#2f855a';
+
+  const leafColor2 = isDiseased
+    ? hovered
+      ? '#c53030'
+      : '#e53e3e'
+    : hovered
+    ? '#48bb78'
+    : '#2f855a';
 
   return (
     <group
@@ -221,19 +242,15 @@ function Tree({ position, index, coconut, onSelect, onHover }) {
         <cylinderGeometry args={[0.1, 0.12, 1.2, 8]} />
         <meshStandardMaterial color="#8b5a2b" roughness={0.9} />
       </mesh>
+
       <mesh position={[0, 1.4, 0]} castShadow>
         <coneGeometry args={[0.55, 0.9, 10]} />
-        <meshStandardMaterial
-          color={hovered ? '#38a169' : '#2f855a'}
-          roughness={0.8}
-        />
+        <meshStandardMaterial color={leafColor1} roughness={0.8} />
       </mesh>
+
       <mesh position={[0, 1.9, 0]} castShadow>
         <coneGeometry args={[0.45, 0.75, 10]} />
-        <meshStandardMaterial
-          color={hovered ? '#48bb78' : '#2f855a'}
-          roughness={0.8}
-        />
+        <meshStandardMaterial color={leafColor2} roughness={0.8} />
       </mesh>
     </group>
   );

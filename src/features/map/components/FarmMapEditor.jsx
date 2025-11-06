@@ -33,9 +33,9 @@ export default function FarmMapEditor() {
   }, [layout, save]);
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="px-4 md:px-6">
-        <div className="mb-3 flex items-center justify-between gap-3">
+    <div className="flex flex-col lg:flex-row gap-4 py-6">
+      <div className="ps-4 md:ps-6 md:flex-none">
+        <div className="mb-3 flex items-center justify-center gap-3">
           <h2 className="text-base font-semibold md:text-lg">
             Farm layout planner
           </h2>
@@ -60,11 +60,11 @@ export default function FarmMapEditor() {
           )}
         </div>
       </div>
-      <div className="px-4 md:px-6">
-        <div className="mb-3 flex items-center justify-between">
+      <div className="px-4 md:px-6 md:flex-1 min-w-0">
+        <div className="mb-3 flex items-center justify-center">
           <h2 className="text-base font-semibold md:text-lg">3D preview</h2>
         </div>
-        <div className="min-h-[400px]">
+        <div className="min-h-[400px] h-full">
           <Farm3D layout={layout} onRemove={handleRemove} />
         </div>
       </div>

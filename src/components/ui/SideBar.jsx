@@ -41,6 +41,10 @@ export const AppSideBar = ({ ...props }) => {
             title: 'Nutrients',
             url: './coconuts/nutrients',
           },
+          {
+            title: 'Map',
+            url: './map',
+          },
         ],
       },
       ...(auth?.user?.role !== 'STAFF'
