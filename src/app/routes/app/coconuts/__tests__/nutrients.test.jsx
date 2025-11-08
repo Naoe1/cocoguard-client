@@ -118,9 +118,9 @@ describe('Nutrients Integration Tests', () => {
       name: /create nutrient record/i,
     });
 
-    await userEvent.clear(within(drawer).getByLabelText(/tree code/i));
+    await userEvent.clear(within(drawer).getByLabelText(/tree nickname/i));
     await userEvent.type(
-      within(drawer).getByLabelText(/tree code/i),
+      within(drawer).getByLabelText(/tree nickname/i),
       'COC-003',
     );
     await userEvent.clear(within(drawer).getByLabelText(/product/i));
@@ -349,7 +349,7 @@ describe('Nutrients Integration Tests', () => {
     });
     await userEvent.click(fertiOption);
 
-    const treeCodeInput = within(drawer).getByLabelText(/tree code/i);
+    const treeCodeInput = within(drawer).getByLabelText(/tree nickname/i);
     await userEvent.clear(treeCodeInput);
     await userEvent.type(treeCodeInput, 'COC-001');
 

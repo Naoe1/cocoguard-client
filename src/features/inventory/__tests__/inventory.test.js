@@ -34,10 +34,11 @@ describe('Inventory schema', () => {
 
   it('requires name', () => {
     const res = createItemSchema.safeParse({
-      category: 'Processed Goods',
-      stockQty: 100,
-      amountPerUnit: 1,
-      unit: 'Liters',
+      category: 'Fertilizer',
+      stockQty: 45,
+      amountPerUnit: 100,
+      unit: 'ML',
+      stockPrice: 1200,
     });
     expect(res.success).toBe(false);
     expect(res.error.issues[0].message).toMatch(/required/i);
@@ -58,10 +59,11 @@ describe('Inventory schema', () => {
   it('limits name to 30 characters', () => {
     const res = createItemSchema.safeParse({
       name: 'a'.repeat(31),
-      category: 'Category',
-      stockQty: 1,
-      amountPerUnit: 1,
-      unit: 'unit',
+      category: 'Fertilizer',
+      stockQty: 45,
+      amountPerUnit: 100,
+      unit: 'ML',
+      stockPrice: 1200,
     });
     expect(res.success).toBe(false);
     expect(res.error.issues[0].message).toMatch(
@@ -82,11 +84,12 @@ describe('Inventory schema', () => {
 
   it('enforces stockQty greater than 1', () => {
     const res = createItemSchema.safeParse({
-      name: 'Copra',
-      category: 'Raw Material',
+      name: 'Coconut Shake',
+      category: 'Product',
       stockQty: 0,
       amountPerUnit: 1,
       unit: 'kg',
+      stockPrice: 1200,
     });
     expect(res.success).toBe(false);
     expect(res.error.issues[0].message).toMatch(
@@ -97,7 +100,7 @@ describe('Inventory schema', () => {
   it('enforces stockQty less than 1000000', () => {
     const res = createItemSchema.safeParse({
       name: 'Copra',
-      category: 'Raw Material',
+      category: 'Product',
       stockQty: 1000001,
       amountPerUnit: 1,
       unit: 'kg',
@@ -111,7 +114,7 @@ describe('Inventory schema', () => {
   it('enforces amountPerUnit greater than 1', () => {
     const res = createItemSchema.safeParse({
       name: 'Copra',
-      category: 'Raw Material',
+      category: 'Product',
       stockQty: 50,
       amountPerUnit: 0,
       unit: 'kg',
@@ -125,7 +128,7 @@ describe('Inventory schema', () => {
   it('enforces amountPerUnit less than 1000000', () => {
     const res = createItemSchema.safeParse({
       name: 'Copra',
-      category: 'Raw Material',
+      category: 'Product',
       stockQty: 50,
       amountPerUnit: 1000001,
       unit: 'kg',
@@ -139,7 +142,7 @@ describe('Inventory schema', () => {
   it('requires unit', () => {
     const res = createItemSchema.safeParse({
       name: 'Copra',
-      category: 'Raw Material',
+      category: 'Product',
       stockQty: 50,
       amountPerUnit: 1,
       // unit is missing

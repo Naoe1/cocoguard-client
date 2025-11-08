@@ -128,9 +128,9 @@ describe('Harvests Integration Tests', () => {
       name: /create harvest/i,
     });
 
-    await userEvent.clear(within(drawer).getByLabelText(/tree code/i));
+    await userEvent.clear(within(drawer).getByLabelText(/tree nickname/i));
     await userEvent.type(
-      within(drawer).getByLabelText(/tree code/i),
+      within(drawer).getByLabelText(/tree nickname/i),
       'COC-003',
     );
     await userEvent.clear(within(drawer).getByLabelText(/number of coconuts/i));
@@ -311,9 +311,9 @@ describe('Harvests Integration Tests', () => {
       name: /create harvest/i,
     });
 
-    await userEvent.clear(within(drawer).getByLabelText(/tree code/i));
+    await userEvent.clear(within(drawer).getByLabelText(/tree nickname/i));
     await userEvent.type(
-      within(drawer).getByLabelText(/tree code/i),
+      within(drawer).getByLabelText(/tree nickname/i),
       'INVALID',
     );
     await userEvent.clear(within(drawer).getByLabelText(/number of coconuts/i));

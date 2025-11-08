@@ -130,9 +130,9 @@ describe('Treatments Integration Tests', () => {
       name: /create treatment/i,
     });
 
-    await userEvent.clear(within(drawer).getByLabelText(/tree code/i));
+    await userEvent.clear(within(drawer).getByLabelText(/tree nickname/i));
     await userEvent.type(
-      within(drawer).getByLabelText(/tree code/i),
+      within(drawer).getByLabelText(/tree nickname/i),
       'COC-003',
     );
 
@@ -375,7 +375,7 @@ describe('Treatments Integration Tests', () => {
     });
     await userEvent.click(bugAwayOption);
 
-    const treeCodeInput = within(drawer).getByLabelText(/tree code/i);
+    const treeCodeInput = within(drawer).getByLabelText(/tree nickname/i);
     await userEvent.clear(treeCodeInput);
     await userEvent.type(treeCodeInput, 'COC-001');
 

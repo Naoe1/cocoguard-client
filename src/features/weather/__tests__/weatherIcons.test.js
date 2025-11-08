@@ -14,79 +14,69 @@ import {
 } from 'lucide-react';
 
 describe('getWeatherCodeIcon', () => {
-  it('returns Sun icon for clear/sunny codes', () => {
+  it('returns Sun icon for clear sky (0)', () => {
     expect(getWeatherCodeIcon(0)).toBe(Sun);
-    expect(getWeatherCodeIcon(1000)).toBe(Sun);
   });
 
-  it('returns CloudSun icon for partly cloudy codes', () => {
-    expect(getWeatherCodeIcon(1100)).toBe(CloudSun);
-    expect(getWeatherCodeIcon(1101)).toBe(CloudSun);
+  it('returns CloudSun for mainly/partly cloudy (1-2)', () => {
+    expect(getWeatherCodeIcon(1)).toBe(CloudSun);
+    expect(getWeatherCodeIcon(2)).toBe(CloudSun);
   });
 
-  it('returns Cloud icon for cloudy codes', () => {
-    expect(getWeatherCodeIcon(1102)).toBe(Cloud);
-    expect(getWeatherCodeIcon(1001)).toBe(Cloud);
+  it('returns Cloud for overcast (3)', () => {
+    expect(getWeatherCodeIcon(3)).toBe(Cloud);
   });
 
-  it('returns CloudFog icon for fog codes', () => {
-    expect(getWeatherCodeIcon(2000)).toBe(CloudFog);
-    expect(getWeatherCodeIcon(2100)).toBe(CloudFog);
+  it('returns CloudFog for fog codes (45, 48)', () => {
+    expect(getWeatherCodeIcon(45)).toBe(CloudFog);
+    expect(getWeatherCodeIcon(48)).toBe(CloudFog);
   });
 
-  it('returns CloudDrizzle icon for drizzle codes', () => {
-    expect(getWeatherCodeIcon(4000)).toBe(CloudDrizzle);
+  it('returns CloudDrizzle for drizzle (51-55)', () => {
+    expect(getWeatherCodeIcon(51)).toBe(CloudDrizzle);
+    expect(getWeatherCodeIcon(53)).toBe(CloudDrizzle);
+    expect(getWeatherCodeIcon(55)).toBe(CloudDrizzle);
   });
 
-  it('returns CloudRain icon for rain codes', () => {
-    expect(getWeatherCodeIcon(4001)).toBe(CloudRain);
-    expect(getWeatherCodeIcon(4200)).toBe(CloudRain);
+  it('returns ThermometerSnowflake for freezing drizzle/rain (56,57,66,67)', () => {
+    expect(getWeatherCodeIcon(56)).toBe(ThermometerSnowflake);
+    expect(getWeatherCodeIcon(57)).toBe(ThermometerSnowflake);
+    expect(getWeatherCodeIcon(66)).toBe(ThermometerSnowflake);
+    expect(getWeatherCodeIcon(67)).toBe(ThermometerSnowflake);
   });
 
-  it('returns CloudRainWind icon for heavy rain codes', () => {
-    expect(getWeatherCodeIcon(4201)).toBe(CloudRainWind);
+  it('returns CloudRain for rain (61-65,80)', () => {
+    expect(getWeatherCodeIcon(61)).toBe(CloudRain);
+    expect(getWeatherCodeIcon(63)).toBe(CloudRain);
+    expect(getWeatherCodeIcon(65)).toBe(CloudRain);
+    expect(getWeatherCodeIcon(80)).toBe(CloudRain);
   });
 
-  it('returns CloudSnow icon for snow codes', () => {
-    expect(getWeatherCodeIcon(5000)).toBe(CloudSnow);
-    expect(getWeatherCodeIcon(5001)).toBe(CloudSnow);
-    expect(getWeatherCodeIcon(5100)).toBe(CloudSnow);
-    expect(getWeatherCodeIcon(5101)).toBe(CloudSnow);
+  it('returns CloudRainWind for stronger showers (81-82)', () => {
+    expect(getWeatherCodeIcon(81)).toBe(CloudRainWind);
+    expect(getWeatherCodeIcon(82)).toBe(CloudRainWind);
   });
 
-  it('returns ThermometerSnowflake icon for freezing codes', () => {
-    expect(getWeatherCodeIcon(6000)).toBe(ThermometerSnowflake);
-    expect(getWeatherCodeIcon(6001)).toBe(ThermometerSnowflake);
-    expect(getWeatherCodeIcon(6200)).toBe(ThermometerSnowflake);
-    expect(getWeatherCodeIcon(6201)).toBe(ThermometerSnowflake);
+  it('returns CloudSnow for snow (71-77,85,86)', () => {
+    expect(getWeatherCodeIcon(71)).toBe(CloudSnow);
+    expect(getWeatherCodeIcon(73)).toBe(CloudSnow);
+    expect(getWeatherCodeIcon(75)).toBe(CloudSnow);
+    expect(getWeatherCodeIcon(77)).toBe(CloudSnow);
+    expect(getWeatherCodeIcon(85)).toBe(CloudSnow);
+    expect(getWeatherCodeIcon(86)).toBe(CloudSnow);
   });
 
-  it('returns CloudSnow icon for ice pellet codes', () => {
-    expect(getWeatherCodeIcon(7000)).toBe(CloudSnow);
-    expect(getWeatherCodeIcon(7101)).toBe(CloudSnow);
-    expect(getWeatherCodeIcon(7102)).toBe(CloudSnow);
+  it('returns CloudLightning for thunderstorm (95,96,99)', () => {
+    expect(getWeatherCodeIcon(95)).toBe(CloudLightning);
+    expect(getWeatherCodeIcon(96)).toBe(CloudLightning);
+    expect(getWeatherCodeIcon(99)).toBe(CloudLightning);
   });
 
-  it('returns CloudLightning icon for thunderstorm codes', () => {
-    expect(getWeatherCodeIcon(8000)).toBe(CloudLightning);
-  });
-
-  it('returns default Cloud icon for unknown codes', () => {
+  it('returns default Cloud for unknown/invalid codes', () => {
     expect(getWeatherCodeIcon(9999)).toBe(Cloud);
     expect(getWeatherCodeIcon(-1)).toBe(Cloud);
     expect(getWeatherCodeIcon(null)).toBe(Cloud);
     expect(getWeatherCodeIcon(undefined)).toBe(Cloud);
-  });
-
-  it('handles string weather codes', () => {
-    expect(getWeatherCodeIcon('1000')).toBe(Sun);
-    expect(getWeatherCodeIcon('4001')).toBe(CloudRain);
-  });
-
-  it('handles edge cases gracefully', () => {
-    expect(getWeatherCodeIcon(0)).toBe(Sun);
-    expect(getWeatherCodeIcon('')).toBe(Cloud);
-    expect(getWeatherCodeIcon(false)).toBe(Cloud);
-    expect(getWeatherCodeIcon(true)).toBe(Cloud);
+    expect(getWeatherCodeIcon('3')).toBe(Cloud); // strings not coerced
   });
 });

@@ -7,6 +7,10 @@ import { useWeatherForecast } from '../api/GetWeather';
 vi.mock('../api/GetWeather');
 const mockUseWeatherForecast = vi.mocked(useWeatherForecast);
 
+vi.mock('@/lib/auth', () => ({
+  useAuth: () => ({ auth: { user: { city: 'Manila' } } }),
+}));
+
 const createWrapper = () => {
   const queryClient = new QueryClient({
     defaultOptions: {
