@@ -70,7 +70,7 @@ export const UpdateHarvest = ({ harvestId, closeForm }) => {
           name="treeCode"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Coconut ID *</FormLabel>
+              <FormLabel>Tree Nickname *</FormLabel>
               <FormControl>
                 <Input
                   placeholder="Enter tree code"

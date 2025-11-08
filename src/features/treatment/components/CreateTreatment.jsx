@@ -148,9 +148,9 @@ export const CreateTreatment = ({ TriggerBtn, code }) => {
             disabled={!!code}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Tree Code *</FormLabel>
+                <FormLabel>Tree Nickname *</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter tree code" {...field} />
+                  <Input placeholder="Enter Nickname" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
