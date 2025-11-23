@@ -32,7 +32,7 @@ async function geocodeLocation(nameOrCoords) {
   return { latitude, longitude, name: label };
 }
 
-async function getWeatherForecast({ location = 'Manila', timesteps = '1d' }) {
+async function getWeatherForecast({ location, timesteps = '1d' }) {
   const interval =
     timesteps === '1d' ? 'daily' : timesteps === '1h' ? 'hourly' : timesteps;
 

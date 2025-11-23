@@ -15,7 +15,7 @@ import { useAuth } from '@/lib/auth';
 
 export const WeatherView = () => {
   const { auth } = useAuth();
-  const [location, setLocation] = useState(auth.user?.city || 'Manila');
+  const [location, setLocation] = useState(auth.user?.city);
   const [tempLocation, setTempLocation] = useState(location);
   const [timesteps, setTimesteps] = useState('daily');
   const weatherQuery = useWeatherForecast({
@@ -32,6 +32,14 @@ export const WeatherView = () => {
     e.preventDefault();
     setLocation(tempLocation);
   };
+
+  if (weatherQuery.isLoading) {
+    return (
+      <div className="flex justify-center items-center h-60">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
+  }
 
   const forecastData = weatherQuery.data?.data?.timelines?.[timesteps];
   const locationName = weatherQuery.data?.data?.location?.name;
