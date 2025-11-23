@@ -106,8 +106,8 @@ export default function FarmPlanner2D({
     const rect = svg.getBoundingClientRect();
     const px = e.clientX - rect.left;
     const py = e.clientY - rect.top;
-    // Convert pixel to world (x,z)
-    const x = minX + (px / w) * worldWidth;
+    // Convert pixel to world (x,z) with X inversion so left in 2D matches left in 3D
+    const x = maxX - (px / w) * worldWidth;
     const z = maxZ - (py / h) * worldHeight; // invert Y to Z
     // Prevent adding if nothing selectable remains or nothing selected
     if (allPlaced || !selectedId) {
@@ -174,7 +174,8 @@ export default function FarmPlanner2D({
 
   // Helpers to map world (x,z) to svg pixel (cx, cy)
   const toPx = (x, z) => {
-    const cx = ((x - minX) / worldWidth) * w;
+    // Invert X to match onClick mapping (world maxX at left edge)
+    const cx = ((maxX - x) / worldWidth) * w;
     const cy = ((maxZ - z) / worldHeight) * h;
     return [cx, cy];
   };

@@ -1,94 +1,26 @@
-import React, {
-  useRef,
-  useMemo,
-  useEffect,
-  useState,
-  useCallback,
-} from 'react';
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import React, { useMemo, useEffect, useState, useCallback } from 'react';
+import { Canvas, useThree, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { Button } from '@/shared/components/ui/button';
-import { Link } from 'react-router-dom';
+import { Popup } from './Popup';
+import CoconutTreeModel from './CoconutTreeModel';
+import { OrbitControls } from '@react-three/drei';
 
 function Controls() {
-  const { camera, gl } = useThree();
-  const controlsRef = useRef();
-  const panBounds = useMemo(
-    () => ({
-      minX: -9.5,
-      maxX: 9.5,
-      minZ: -9.5,
-      maxZ: 9.5,
-      minY: 0.2,
-      maxY: 6,
-    }),
-    [],
+  return (
+    <OrbitControls
+      enableDamping
+      dampingFactor={0.08}
+      rotateSpeed={0.5}
+      enablePan
+      minDistance={5}
+      maxDistance={40}
+      minPolarAngle={Math.PI / 6}
+      maxPolarAngle={Math.PI / 2.1}
+      makeDefault
+    />
   );
-
-  useEffect(() => {
-    const controls = new OrbitControls(camera, gl.domElement);
-    controls.enableDamping = true;
-    controls.dampingFactor = 0.08;
-    controls.rotateSpeed = 0.5;
-    controls.enablePan = true;
-    controls.minDistance = 5;
-    controls.maxDistance = 40;
-    controls.minPolarAngle = Math.PI / 6;
-    controls.maxPolarAngle = Math.PI / 2.1;
-    controlsRef.current = controls;
-    return () => controls.dispose();
-  }, [camera, gl]);
-
-  useFrame(() => {
-    const controls = controlsRef.current;
-    if (!controls) return;
-
-    // Apply damping and user input
-    controls.update();
-
-    // Clamp panning by restricting the controls.target to bounds
-    const target = controls.target;
-    const cam = camera;
-    // Maintain the camera's relative offset from the target
-    const offsetX = cam.position.x - target.x;
-    const offsetY = cam.position.y - target.y;
-    const offsetZ = cam.position.z - target.z;
-
-    const clampedX = THREE.MathUtils.clamp(
-      target.x,
-      panBounds.minX,
-      panBounds.maxX,
-    );
-    const clampedY = THREE.MathUtils.clamp(
-      target.y,
-      panBounds.minY,
-      panBounds.maxY,
-    );
-    const clampedZ = THREE.MathUtils.clamp(
-      target.z,
-      panBounds.minZ,
-      panBounds.maxZ,
-    );
-
-    if (
-      clampedX !== target.x ||
-      clampedY !== target.y ||
-      clampedZ !== target.z
-    ) {
-      target.set(clampedX, clampedY, clampedZ);
-      cam.position.set(
-        target.x + offsetX,
-        target.y + offsetY,
-        target.z + offsetZ,
-      );
-    }
-  });
-  return null;
 }
-// ...existing code...
 
-// Generate rolling hills
 function generateHeight(x, z) {
   return (
     Math.sin(x * 0.5) * 0.3 +
@@ -97,103 +29,7 @@ function generateHeight(x, z) {
   );
 }
 
-function Popup({ tree, onClose, onRemove }) {
-  if (!tree) return null;
-  const { index, position, coconut } = tree;
-  const info = coconut
-    ? {
-        nickname: coconut.tree_code ?? '—',
-        title: coconut.tree_seq ?? coconut.tree_code ?? `Tree #${index}`,
-        status: coconut.status ?? '—',
-        plantingDate: coconut.planting_date
-          ? new Date(coconut.planting_date).toISOString().split('T')[0]
-          : '—',
-        lastHarvestDate:
-          Array.isArray(coconut.harvest) && coconut.harvest[0]?.harvest_date
-            ? new Date(coconut.harvest[0].harvest_date)
-                .toISOString()
-                .split('T')[0]
-            : '—',
-        lastHarvestWeight:
-          Array.isArray(coconut.harvest) &&
-          coconut.harvest[0]?.total_weight != null
-            ? coconut.harvest[0].total_weight
-            : '—',
-      }
-    : {
-        nickname: '—',
-        title: `Tree #${index}`,
-        status: 'Good',
-        plantingDate: '—',
-        lastHarvestDate: '—',
-        lastHarvestWeight: '—',
-      };
-  return (
-    <div
-      className="pointer-events-none absolute inset-0 grid place-items-center"
-      onClick={onClose}
-    >
-      <div
-        role="dialog"
-        aria-modal="true"
-        className="pointer-events-auto w-full max-w-sm rounded-lg border bg-card p-4 text-card-foreground shadow-xl md:p-5"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="flex items-center justify-between">
-          <h3 className="m-0 text-blue-600 hover:text-blue-800">
-            <Link to={`/app/coconuts/${tree.coconut.id}`}>{info.title}</Link>
-          </h3>
-          <button
-            onClick={onClose}
-            title="Close"
-            aria-label="Close"
-            className="inline-flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-          >
-            ✕
-          </button>
-        </div>
-        <div className="mt-2 text-sm leading-6">
-          <div>
-            <span className="font-semibold">Nickname:</span> {info.nickname}
-          </div>
-          <div>
-            <span className="font-semibold">Status:</span> {info.status}
-          </div>
-          <div>
-            <span className="font-semibold">Planted:</span> {info.plantingDate}
-          </div>
-          <div>
-            <span className="font-semibold">Last harvest:</span>{' '}
-            {info.lastHarvestDate}
-          </div>
-          <div>
-            <span className="font-semibold">Last harvest (kg):</span>{' '}
-            {info.lastHarvestWeight}
-          </div>
-          <div>
-            <span className="font-semibold">Coords:</span>{' '}
-            {position.map((n) => n.toFixed(2)).join(', ')}
-          </div>
-        </div>
-        {onRemove && (
-          <div className="mt-4 flex justify-end gap-2">
-            <Button
-              onClick={() => {
-                onRemove(index);
-                onClose?.();
-              }}
-              variant="destructive"
-            >
-              Remove tree
-            </Button>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
-
-function Tree({ position, index, coconut, onSelect, onHover }) {
+function Tree({ position, index, coconut, onSelect, onHover, highlighted }) {
   const [hovered, setHovered] = useState(false);
 
   const handleOver = (e) => {
@@ -215,22 +51,6 @@ function Tree({ position, index, coconut, onSelect, onHover }) {
 
   const isDiseased = coconut?.status === 'Diseased';
 
-  const leafColor1 = isDiseased
-    ? hovered
-      ? '#c53030'
-      : '#e53e3e'
-    : hovered
-    ? '#38a169'
-    : '#2f855a';
-
-  const leafColor2 = isDiseased
-    ? hovered
-      ? '#c53030'
-      : '#e53e3e'
-    : hovered
-    ? '#48bb78'
-    : '#2f855a';
-
   return (
     <group
       position={position}
@@ -238,20 +58,11 @@ function Tree({ position, index, coconut, onSelect, onHover }) {
       onPointerOut={handleOut}
       onClick={handleClick}
     >
-      <mesh position={[0, 0.6, 0]} castShadow>
-        <cylinderGeometry args={[0.1, 0.12, 1.2, 8]} />
-        <meshStandardMaterial color="#8b5a2b" roughness={0.9} />
-      </mesh>
-
-      <mesh position={[0, 1.4, 0]} castShadow>
-        <coneGeometry args={[0.55, 0.9, 10]} />
-        <meshStandardMaterial color={leafColor1} roughness={0.8} />
-      </mesh>
-
-      <mesh position={[0, 1.9, 0]} castShadow>
-        <coneGeometry args={[0.45, 0.75, 10]} />
-        <meshStandardMaterial color={leafColor2} roughness={0.8} />
-      </mesh>
+      <CoconutTreeModel
+        position={[0, 0, 0]}
+        hovered={hovered || highlighted}
+        diseased={isDiseased}
+      />
     </group>
   );
 }
@@ -278,9 +89,48 @@ function Terrain() {
   );
 }
 
+// Smooth camera focus component
+function CameraFocus({ target, onDone }) {
+  const { camera, controls } = useThree();
+  const [active, setActive] = useState(true);
+  const duration = 0.6; // seconds
+  const start = useMemo(
+    () => ({
+      position: camera.position.clone(),
+      target: controls?.target ? controls.target.clone() : new THREE.Vector3(),
+      time: performance.now(),
+    }),
+    [camera, controls],
+  );
+
+  useFrame(() => {
+    if (!active || !target) return;
+    const elapsed = (performance.now() - start.time) / 1000;
+    const t = Math.min(1, elapsed / duration);
+    // Ease (smoothstep)
+    const ease = t * t * (3 - 2 * t);
+    const targetVec = new THREE.Vector3(...target);
+    const camOffset = new THREE.Vector3(4, 3, 4); // offset so we look slightly from above/side
+    const desiredPos = targetVec.clone().add(camOffset);
+    camera.position.lerpVectors(start.position, desiredPos, ease);
+    if (controls?.target) {
+      controls.target.lerpVectors(start.target, targetVec, ease);
+      controls.update();
+    }
+    if (t >= 1) {
+      setActive(false);
+      onDone?.();
+    }
+  });
+  return null;
+}
+
 export default function Farm3D({ layout, onRemove }) {
   const [selectedTree, setSelectedTree] = useState(null);
   const [hovering, setHovering] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [highlightIndex, setHighlightIndex] = useState(null);
+  const [focusTarget, setFocusTarget] = useState(null);
 
   const trees = useMemo(() => {
     if (Array.isArray(layout)) {
@@ -292,7 +142,49 @@ export default function Farm3D({ layout, onRemove }) {
     return [];
   }, [layout]);
 
-  const closePopup = useCallback(() => setSelectedTree(null), []);
+  const closePopup = useCallback(() => {
+    setSelectedTree(null);
+    setHighlightIndex(null);
+    setFocusTarget(null);
+  }, []);
+
+  const performSearch = useCallback(() => {
+    if (!searchTerm) return;
+    const termLower = searchTerm.trim().toLowerCase();
+    const foundIndex = trees.findIndex((t) => {
+      const c = t.coconut;
+      if (!c) return false;
+      const idStr = c.id != null ? String(c.id).toLowerCase() : '';
+      const codeStr = c.tree_code ? c.tree_code.toLowerCase() : '';
+      const seqStr = c.tree_seq ? String(c.tree_seq).toLowerCase() : '';
+      return (
+        idStr === termLower ||
+        codeStr === termLower ||
+        seqStr === termLower ||
+        codeStr.includes(termLower) ||
+        seqStr.includes(termLower)
+      );
+    });
+    if (foundIndex >= 0) {
+      const treeData = {
+        index: foundIndex,
+        position: trees[foundIndex].pos,
+        coconut: trees[foundIndex].coconut,
+      };
+      setSelectedTree(treeData);
+      setHighlightIndex(foundIndex);
+      setFocusTarget(trees[foundIndex].pos);
+    } else {
+      // Optional: could show a toast; for now just clear highlight
+      setHighlightIndex(null);
+    }
+  }, [searchTerm, trees]);
+
+  const handleSearchKey = (e) => {
+    if (e.key === 'Enter') {
+      performSearch();
+    }
+  };
   useEffect(() => {
     const onKey = (e) => e.key === 'Escape' && setSelectedTree(null);
     window.addEventListener('keydown', onKey);
@@ -305,6 +197,31 @@ export default function Farm3D({ layout, onRemove }) {
         hovering ? 'cursor-pointer' : 'cursor-default'
       }`}
     >
+      <div className="absolute left-2 top-2 z-10 flex gap-2 rounded-md bg-white/80 p-2 shadow">
+        <input
+          type="text"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          onKeyDown={handleSearchKey}
+          placeholder="Search tree id or nickname"
+          className="w-48 rounded border px-2 py-1 text-sm focus:outline-none focus:ring"
+        />
+        <button
+          onClick={performSearch}
+          className="rounded bg-blue-600 px-3 py-1 text-sm font-medium text-white hover:bg-blue-500"
+        >
+          Go
+        </button>
+        {highlightIndex != null && (
+          <button
+            onClick={closePopup}
+            title="Clear"
+            className="rounded bg-gray-300 px-3 py-1 text-sm hover:bg-gray-200"
+          >
+            Clear
+          </button>
+        )}
+      </div>
       <Canvas
         camera={{ position: [10, 7, 10], fov: 50 }}
         shadows
@@ -340,8 +257,10 @@ export default function Farm3D({ layout, onRemove }) {
             coconut={t.coconut}
             onSelect={setSelectedTree}
             onHover={setHovering}
+            highlighted={i === highlightIndex}
           />
         ))}
+        {focusTarget && <CameraFocus target={focusTarget} onDone={() => {}} />}
         <Controls />
       </Canvas>
       <Popup tree={selectedTree} onClose={closePopup} onRemove={onRemove} />
